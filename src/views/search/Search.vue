@@ -1,74 +1,89 @@
 <template>
   <div class="search">
-    <p>搜素页面</p>
+    <div class="content">
+      <div class="logo">
+        <img :src="require('../../assets/images/dd.png')"/>
+      </div>
+      <van-cell-group>
+  <van-field
+    v-model="goodMessage"
+    type="textarea"
+    placeholder="请将淘口令或链接粘贴到此处"
+    rows="3"
+    autosize
+    border
+  />
+</van-cell-group>
+    <van-button @click="doSearch" class="search-btn" size="large" type="warning">查看优惠</van-button>
+    
+    </div>
+    <div class="info-area">
+      <van-row justify="center">
+        <van-col span="6" style="text-align:center"><van-icon name="fire" size="32px"/></van-col>
+        <van-col span="6" style="text-align:center"><van-icon name="shop-collect" size="32px"/></van-col>
+        <van-col span="6" style="text-align:center"><van-icon name="goods-collect" size="32px"/></van-col>
+        <van-col span="6" style="text-align:center"><van-icon name="lock" size="32px"/></van-col>
+      </van-row>   
+    </div>
   </div>
 </template>
 
 <script>
-import { Checkbox, CheckboxGroup, Card, SubmitBar, Toast } from 'vant';
+import { Button, Field, Cell, CellGroup, Icon, Row,Col } from 'vant';
 
 export default {
   components: {
-    [Card.name]: Card,
-    [Checkbox.name]: Checkbox,
-    [SubmitBar.name]: SubmitBar,
-    [CheckboxGroup.name]: CheckboxGroup
+    [Button.name]: Button,
+    [Field.name]:Field,
+    [Cell.name]:Cell,
+    [CellGroup.name]: CellGroup,
+    [Icon.name]:Icon,
+    [Row.name]:Row,
+    [Col.name]:Col,
   },
 
   data() {
     return {
-      checkedGoods: ['1', '2', '3'],
-      goods: [{
-        id: '1',
-        title: '进口香蕉',
-        desc: '约250g，2根',
-        price: 200,
-        num: 1,
-        thumb: 'https://img.yzcdn.cn/public_files/2017/10/24/2f9a36046449dafb8608e99990b3c205.jpeg'
-      }, {
-        id: '2',
-        title: '陕西蜜梨',
-        desc: '约600g',
-        price: 690,
-        num: 1,
-        thumb: 'https://img.yzcdn.cn/public_files/2017/10/24/f6aabd6ac5521195e01e8e89ee9fc63f.jpeg'
-      }, {
-        id: '3',
-        title: '美国伽力果',
-        desc: '约680g/3个',
-        price: 2680,
-        num: 1,
-        thumb: 'https://img.yzcdn.cn/public_files/2017/10/24/320454216bbe9e25c7651e1fa51b31fd.jpeg'
-      }]
-    };
+      goodMessage:'',
+    }
   },
 
   computed: {
-    submitBarText() {
-      const count = this.checkedGoods.length;
-      return '结算' + (count ? `(${count})` : '');
-    },
-
-    totalPrice() {
-      return this.goods.reduce((total, item) => total + (this.checkedGoods.indexOf(item.id) !== -1 ? item.price : 0), 0);
-    }
+    
   },
 
   methods: {
-    formatPrice(price) {
-      return (price / 100).toFixed(2);
+  doSearch() {
+      if(this.goodMessage){
+        this.$router.push(`/goods?keyword=${this.searchValue}`);
+      }else{
+        this.$toast("请将淘口令或链接粘贴到文本框中");
+      }
     },
-
-    onSubmit() {
-      Toast('点击结算');
-    }
   }
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .search{
+  .content {
+    margin-top: 100px;
+    padding: 10px;
+    .logo{
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .search-btn {
+      margin-top:20px;
+    }
+    .center{
+      text-align: center
+    }
+  }
+  .info-area{
+    margin-top:20px
+  }
   
-  
+
 }
 </style>
