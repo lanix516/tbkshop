@@ -6,6 +6,8 @@
       </div>
       <van-cell-group>
         <van-field
+          v-focus
+          ref="searchArea"
           v-model="goodMessage"
           type="textarea"
           placeholder="请将淘口令或链接粘贴到此处"
@@ -48,13 +50,25 @@ export default {
     [Row.name]: Row,
     [Col.name]: Col
   },
+  directives: {
+    focus: {
+      // 指令的定义
+      inserted: function(el) {
+        el.focus();
+      }
+    }
+  },
 
   data() {
     return {
       goodMessage: ""
     };
   },
-
+  mounted() {
+    this.$refs["searchArea"].focus();
+    this.$nextTick().then(() => {
+    })
+  },
   computed: {},
 
   methods: {

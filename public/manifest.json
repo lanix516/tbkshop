@@ -1,6 +1,6 @@
 {
-  "name": "ddshop",
-  "short_name": "ddshop",
+  "name": "开心购物,享受返利",
+  "short_name": "开心购物",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
@@ -15,6 +15,6 @@
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
+  "background_color": "#2196F3",
   "theme_color": "#4DBA87"
 }
