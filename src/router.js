@@ -9,7 +9,7 @@ export default new Router({
   routes: [
     {
       path: "*",
-      redirect: "/search"
+      redirect: "/"
     },
     {
       name: "home",
@@ -37,7 +37,7 @@ export default new Router({
     },
     {
       name: "search",
-      path: "/search",
+      path: "/",
       component: () => import("./views/search/Search"),
       meta: {
         title: "搜索"
