@@ -17,7 +17,7 @@ Vue.use(Toast);
 import { List } from "vant";
 Vue.use(List);
 
-Axios.defaults.baseURL = "http://www.chengdongkeji.com/";
+Axios.defaults.baseURL = "https://www.chengdongkeji.com/";
 //Axios.defaults.baseURL = "/api";
 Axios.defaults.headers = {
   "Content-Type": "multipart/form-data"

@@ -55,54 +55,59 @@ export default {
     };
   },
 
- mounted(){
-	//this.$refs["searchArea"].focus();
-	this.$nextTick().then(()=>{
-		navigator.permissions.query({
-			  name: 'clipboard-read'
-			}).then(permissionStatus => {
-			  // permissionStatus.state 的值是 'granted'、'denied'、'prompt':
-			  console.log(permissionStatus.state);
-			  // document.write('Pasted state: ', permissionStatus.state);
+  mounted() {
+    //this.$refs["searchArea"].focus();
+    this.$nextTick().then(() => {
+      navigator.permissions
+        .query({
+          name: "clipboard-read"
+        })
+        .then(permissionStatus => {
+          // permissionStatus.state 的值是 'granted'、'denied'、'prompt':
+          console.log(permissionStatus.state);
+          // document.write('Pasted state: ', permissionStatus.state);
 
-			  // 监听权限状态改变事件
-			  permissionStatus.onchange = () => {
-				console.log(permissionStatus.state);
-				// document.write('Pasted state: ', permissionStatus.state);
-			  };
-			});
-			navigator.clipboard.readText()
-			  .then(text => {
-				console.log('Pasted content: ', text);
-				//show(text);
-				this.goodMessage = text;
-				if(this.goodMessage){
-					navigator.clipboard.writeText('')
-					  .then(() => {
-						console.log('清空剪贴板失败');
-					  })
-					  .catch(err => {
-						// This can happen if the user denies clipboard permissions:
-						// 如果用户没有授权，则抛出异常
-						console.error('无法复制此文本：', err);
-					  });
-					this.doSearch();
-				}
-				// document.write('Pasted content: ', text);
-				//   document.getElementById('taobao').innerText('aaa');
-			  })
-			  .catch(err => {
-				console.error('Failed to read clipboard contents: ', err);
-				document.write('Failed to read: ', err);
-			  });
-	})
- },
+          // 监听权限状态改变事件
+          permissionStatus.onchange = () => {
+            console.log(permissionStatus.state);
+            // document.write('Pasted state: ', permissionStatus.state);
+          };
+        });
+      navigator.clipboard
+        .readText()
+        .then(text => {
+          console.log("Pasted content: ", text);
+          //show(text);
+          this.goodMessage = text;
+          if (this.goodMessage) {
+            navigator.clipboard
+              .writeText("")
+              .then(() => {
+                console.log("清空剪贴板失败");
+              })
+              .catch(err => {
+                // This can happen if the user denies clipboard permissions:
+                // 如果用户没有授权，则抛出异常
+                console.error("无法复制此文本：", err);
+              });
+            this.doSearch();
+          }
+          // document.write('Pasted content: ', text);
+          //   document.getElementById('taobao').innerText('aaa');
+        })
+        .catch(err => {
+          console.error("Failed to read clipboard contents: ", err);
+          document.write("Failed to read: ", err);
+        });
+    });
+  },
   computed: {},
 
   methods: {
     doSearch() {
       if (this.goodMessage) {
-        this.$router.push(`/goods?keyword=${this.goodMessage}`);
+        let tmp_message = encodeURIComponent(this.goodMessage);
+        this.$router.push(`/goods?keyword=${tmp_message}`);
       } else {
         this.$toast("请将淘口令或链接粘贴到文本框中");
       }
