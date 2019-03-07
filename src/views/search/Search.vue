@@ -6,8 +6,6 @@
       </div>
       <van-cell-group>
         <van-field
-          v-focus
-          ref="searchArea"
           v-model="goodMessage"
           type="textarea"
           placeholder="请将淘口令或链接粘贴到此处"
@@ -50,25 +48,55 @@ export default {
     [Row.name]: Row,
     [Col.name]: Col
   },
-  directives: {
-    focus: {
-      // 指令的定义
-      inserted: function(el) {
-        el.focus();
-      }
-    }
-  },
 
   data() {
     return {
       goodMessage: ""
     };
   },
-  mounted() {
-    this.$refs["searchArea"].focus();
-    this.$nextTick().then(() => {
-    })
-  },
+
+ mounted(){
+	//this.$refs["searchArea"].focus();
+	this.$nextTick().then(()=>{
+		navigator.permissions.query({
+			  name: 'clipboard-read'
+			}).then(permissionStatus => {
+			  // permissionStatus.state 的值是 'granted'、'denied'、'prompt':
+			  console.log(permissionStatus.state);
+			  // document.write('Pasted state: ', permissionStatus.state);
+
+			  // 监听权限状态改变事件
+			  permissionStatus.onchange = () => {
+				console.log(permissionStatus.state);
+				// document.write('Pasted state: ', permissionStatus.state);
+			  };
+			});
+			navigator.clipboard.readText()
+			  .then(text => {
+				console.log('Pasted content: ', text);
+				//show(text);
+				this.goodMessage = text;
+				if(this.goodMessage){
+					navigator.clipboard.writeText('')
+					  .then(() => {
+						console.log('清空剪贴板失败');
+					  })
+					  .catch(err => {
+						// This can happen if the user denies clipboard permissions:
+						// 如果用户没有授权，则抛出异常
+						console.error('无法复制此文本：', err);
+					  });
+					this.doSearch();
+				}
+				// document.write('Pasted content: ', text);
+				//   document.getElementById('taobao').innerText('aaa');
+			  })
+			  .catch(err => {
+				console.error('Failed to read clipboard contents: ', err);
+				document.write('Failed to read: ', err);
+			  });
+	})
+ },
   computed: {},
 
   methods: {

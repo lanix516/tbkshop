@@ -42,7 +42,7 @@
     </van-cell-group>
     <van-goods-action>
       <van-goods-action-mini-btn icon="chat-o">客服</van-goods-action-mini-btn>
-      <van-goods-action-big-btn :url="goods.clickUrl">打开淘宝购买</van-goods-action-big-btn>
+      <van-goods-action-big-btn :url="goods.couponShortLinkUrl">打开淘宝购买</van-goods-action-big-btn>
     </van-goods-action>
   </div>
 </template>
