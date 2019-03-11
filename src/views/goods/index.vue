@@ -13,10 +13,10 @@
         <div class="goods-title">{{ goods.title }}</div>
         <div class="goods-price">原价：{{ goods.zkPrice }}</div>
         <div class="coupon-price">
-          优惠价格：{{afterPrice}}元
+          券后价格：{{afterPrice}}元
           <van-tag type="danger" v-if="hasCoupon">{{goods.couponInfo}}</van-tag>
         </div>
-        <div></div>
+        <div class="coupon-price">共为您节省(券+返利) {{formatPrice(goods.couponAmount+goods.tkCommFee)}}元</div>
       </van-cell>
       <van-cell :value="goods.shopTitle" icon="shop-o" is-link :url="goods.shortLinkUrl"></van-cell>
       <van-cell class="goods-express" v-if="hasCoupon">
@@ -42,6 +42,22 @@
     </van-cell-group>
     <van-goods-action>
       <van-goods-action-mini-btn icon="chat-o">客服</van-goods-action-mini-btn>
+      <van-goods-action-mini-btn
+        :data-clipboard-text="goods.share"
+        class="copy-btn"
+        @click="copyInfo(2)"
+        icon="friends"
+        text="QQ分享"
+      />
+      <van-goods-action-mini-btn
+        :data-clipboard-text="goods.share"
+        class="copy-btn"
+        @click="copyInfo(1)"
+        icon="chat"
+        text="微信分享"
+      />
+      <!-- <van-goods-action-big-btn default>转发到微信</van-goods-action-big-btn>
+      <van-goods-action-big-btn primary>转发到QQ</van-goods-action-big-btn>-->
       <van-goods-action-big-btn :url="goods.couponShortLinkUrl">打开淘宝购买</van-goods-action-big-btn>
     </van-goods-action>
   </div>
@@ -49,6 +65,7 @@
 
 <script>
 import Coupon from "../../components/good/Coupon2";
+import Clipboard from "clipboard";
 
 import {
   Tag,
@@ -61,7 +78,8 @@ import {
   SwipeItem,
   GoodsAction,
   GoodsActionBigBtn,
-  GoodsActionMiniBtn
+  GoodsActionMiniBtn,
+  Popup
 } from "vant";
 
 export default {
@@ -76,11 +94,13 @@ export default {
     [SwipeItem.name]: SwipeItem,
     [GoodsAction.name]: GoodsAction,
     [GoodsActionBigBtn.name]: GoodsActionBigBtn,
-    [GoodsActionMiniBtn.name]: GoodsActionMiniBtn
+    [GoodsActionMiniBtn.name]: GoodsActionMiniBtn,
+    [Popup.name]: Popup
   },
   props: ["keyword"],
   data() {
     return {
+      showClipboard: false,
       goods: {},
       loader: ""
     };
@@ -109,6 +129,21 @@ export default {
     }
   },
   methods: {
+    copyInfo(idx) {
+      let target = idx == 1 ? "微信" : "QQ";
+      var clipboard = new Clipboard(".copy-btn");
+      clipboard.on("success", e => {
+        this.$toast(`复制成功,请打开${target}粘贴`);
+        // 释放内存
+        clipboard.destroy();
+      });
+      clipboard.on("error", e => {
+        // 不支持复制
+        console.log("该浏览器不支持自动复制");
+        // 释放内存
+        clipboard.destroy();
+      });
+    },
     getGoodDetail() {
       let url = "/";
       let form = new FormData();
