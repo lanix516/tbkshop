@@ -2,12 +2,18 @@
   <div class="login">
     <van-row type="flex" justify="center">
       <van-col span="20">
-        <div style="margin:120px 0">
+        <div style="margin:80px 0">
           <div class="page-logo">
             <img src="../../assets/images/dd.png">
           </div>
           <van-cell-group>
-            <van-field v-model="form.username" required clearable label="用户名" placeholder="请输入用户名"/>
+            <van-field
+              v-model="form.username"
+              required
+              clearable
+              label="手机号"
+              placeholder="请输入注册使用的手机号"
+            />
 
             <van-field
               v-model="form.password"
@@ -29,6 +35,11 @@
           <van-cell-group style="padding:10px">
             <van-button type="info" size="large" @click="login">立即登陆</van-button>
           </van-cell-group>
+          <div style="padding:10px;text-align: right; font-size:13px; color:#666">
+            <p @click="gotoRegister">
+              <van-icon name="question-o" size="13px" style="vertical-align: middle;"/>没有账号？ 请先注册
+            </p>
+          </div>
         </div>
 
         <div class="other-way">
@@ -53,14 +64,15 @@
   </div>
 </template>
 <script>
-import { Row, Col, Field, Button, CellGroup } from "vant";
+import { Row, Col, Field, Button, CellGroup, Icon } from "vant";
 export default {
   components: {
     [Row.name]: Row,
     [Col.name]: Col,
     [Field.name]: Field,
     [Button.name]: Button,
-    [CellGroup.name]: CellGroup
+    [CellGroup.name]: CellGroup,
+    [Icon.name]: Icon
   },
   data() {
     return {
@@ -71,9 +83,7 @@ export default {
       loader: ""
     };
   },
-  created() {
-    this.loader = this.$loading.show();
-  },
+  created() {},
   methods: {
     login() {
       if (!this.form.username) {
@@ -84,23 +94,27 @@ export default {
         this.$toast("请输入密码");
         return false;
       }
+      this.loader = this.$loading.show();
       let form = new FormData();
-      form.append("name", this.form.username);
+      form.append("phone", this.form.username);
       form.append("pwd", this.form.password);
-      this.axios
-        .post("/login", form, {
-          withCredentials: true
-        })
-        .then(res => {
-          let data = res.data;
-          if (data.code == 200) {
-            this.loader.hide();
-            this.$toast.success("登陆成功");
-            this.$router.push("/home");
-          } else {
-            this.$toast.fail(data.msg);
-          }
-        });
+      this.axios.post("/login", form).then(res => {
+        let data = res.data;
+        if (data.code == 200) {
+          this.$store.commit("setLogin", true);
+          this.$store.commit("setUserInfo", data.data)
+          this.loader.hide();
+          this.$toast.success("登陆成功");
+          localStorage.setItem("userInfo", JSON.stringify(data.data))
+          this.$router.push("/");
+        } else {
+          this.loader.hide();
+          this.$toast.fail(data.msg);
+        }
+      });
+    },
+    gotoRegister() {
+      this.$router.push("/register");
     }
   }
 };

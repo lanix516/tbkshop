@@ -3,8 +3,7 @@
     <img class="user-poster" :src="require('../../assets/images/banner.jpg')">
     <van-row class="user-links">
       <van-col span="6">
-        <van-icon name="pending-payment" />
-        搜索商品
+        <van-icon name="pending-payment"/>搜索商品
       </van-col>
       <!-- <van-col span="6">
         <van-icon name="records" />
@@ -17,22 +16,22 @@
       <van-col span="6">
         <van-icon name="logistics" />
         已发货
-      </van-col> -->
+      </van-col>-->
     </van-row>
 
     <van-cell-group class="user-group">
-      <van-cell icon="records" title="全部订单" is-link />
+      <van-cell icon="records" title="全部订单" is-link/>
     </van-cell-group>
 
     <van-cell-group>
-      <van-cell icon="points" title="我的返利" is-link />
-      <van-cell icon="gold-coin-o" title="我的优惠券" is-link />
+      <van-cell icon="points" title="我的返利" is-link/>
+      <van-cell icon="alipay" title="返利账号" is-link/>
     </van-cell-group>
   </div>
 </template>
 
 <script>
-import { Row, Col, Icon, Cell, CellGroup } from 'vant';
+import { Row, Col, Icon, Cell, CellGroup } from "vant";
 
 export default {
   components: {
@@ -41,6 +40,11 @@ export default {
     [Icon.name]: Icon,
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup
+  },
+  mounted() {
+    if (!this.$store.state.isLogin) {
+      this.$router.push("/login");
+    }
   }
 };
 </script>

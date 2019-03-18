@@ -2,18 +2,27 @@
   <div class="register">
     <van-row type="flex" justify="center">
       <van-col span="20">
-        <div style="margin:120px 0">
+        <div style="margin:80px 0">
           <div class="page-logo">
             <img src="../../assets/images/dd.png">
           </div>
           <van-cell-group>
-            <van-field v-model="form.username" required clearable label="用户名" placeholder="请输入用户名"/>
+            <van-field
+              v-model="form.username"
+              required
+              label="手机号"
+              placeholder="请输入手机号"
+              left-icon="phone-o"
+              right-icon="close"
+              @click-right-icon="clearName"
+            />
 
             <van-field
               v-model="form.password"
               :type="passwordType"
               label="密码"
               placeholder="请输入密码"
+              left-icon="bag-o"
               right-icon="eye-o"
               @click-right-icon="showPassword"
               required
@@ -55,7 +64,7 @@
   </div>
 </template>
 <script>
-import { Row, Col, Field, Button, CellGroup } from "vant";
+import { Row, Col, Field, Button, CellGroup, NavBar } from "vant";
 export default {
   components: {
     [Row.name]: Row,
@@ -74,33 +83,44 @@ export default {
       passwordType: "password"
     };
   },
-  created() {
-    this.loader = this.$loading.show();
-  },
+  created() {},
   methods: {
     showPassword() {
       this.passwordType = this.passwordType == "password" ? "" : "password";
     },
+    clearName() {
+      this.form.username = "";
+    },
     register() {
       if (!this.form.username) {
-        this.$toast("请输入用户名");
+        this.$toast("请输入手机号码");
+        return false;
+      }
+      let pattern = /^1[34578]\d{9}$/;
+      if (!pattern.test(this.form.username)) {
+        this.$toast("请输入正确的手机号");
         return false;
       }
       if (!this.form.password) {
         this.$toast("请输入密码");
         return false;
       }
+      this.loader = this.$loading.show();
       let form = new FormData();
       form.append("name", this.form.username);
       form.append("pwd", this.form.password);
       this.axios.post("/reg/1/", form).then(res => {
         let data = res.data;
         if (data.code == 200) {
+          this.$store.commit("setLogin", true);
+          this.$store.commit("setUserInfo", data.data);
           this.loader.hide();
           this.$toast.success("注册成功");
-          this.$router.push("/home");
+          localStorage.setItem("userInfo", JSON.stringify(data.data));
+          this.$router.push("/");
         } else {
           console.log(data);
+          this.loader.hide();
           this.$toast.fail(data.msg);
         }
       });

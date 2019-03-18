@@ -25,7 +25,12 @@ Axios.defaults.headers = {
 Vue.prototype.axios = Axios;
 
 Vue.config.productionTip = false;
-
+let user_str = localStorage.getItem("userInfo");
+if (user_str) {
+  let user = JSON.parse(user_str);
+  store.commit("setUserInfo", user);
+  store.commit("setLogin", true);
+}
 new Vue({
   router,
   store,
