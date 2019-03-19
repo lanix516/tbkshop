@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <van-nav-bar title="多多返利网" left-text="返回" @click-left="$router.back()" left-arrow/>
+    <van-nav-bar title="多多返利网" left-text="返回" @click-left="$router.push('/')" left-arrow/>
     <van-row type="flex" justify="center">
       <van-col span="20">
         <div style="margin:80px 0">
