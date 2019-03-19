@@ -1,5 +1,7 @@
 <template>
   <div class="register">
+    <van-nav-bar title="多多返利网" left-text="返回" @click-left="$router.back()" left-arrow/>
+
     <van-row type="flex" justify="center">
       <van-col span="20">
         <div style="margin:80px 0">
@@ -71,7 +73,8 @@ export default {
     [Col.name]: Col,
     [Field.name]: Field,
     [Button.name]: Button,
-    [CellGroup.name]: CellGroup
+    [CellGroup.name]: CellGroup,
+    [NavBar.name]: NavBar
   },
   data() {
     return {
@@ -107,7 +110,7 @@ export default {
       }
       this.loader = this.$loading.show();
       let form = new FormData();
-      form.append("name", this.form.username);
+      form.append("phone", this.form.username);
       form.append("pwd", this.form.password);
       this.axios.post("/reg/1/", form).then(res => {
         let data = res.data;

@@ -1,5 +1,6 @@
 <template>
   <div class="login">
+    <van-nav-bar title="多多返利网" left-text="返回" @click-left="$router.back()" left-arrow/>
     <van-row type="flex" justify="center">
       <van-col span="20">
         <div style="margin:80px 0">
@@ -64,7 +65,7 @@
   </div>
 </template>
 <script>
-import { Row, Col, Field, Button, CellGroup, Icon } from "vant";
+import { Row, Col, Field, Button, CellGroup, Icon, NavBar } from "vant";
 export default {
   components: {
     [Row.name]: Row,
@@ -72,7 +73,8 @@ export default {
     [Field.name]: Field,
     [Button.name]: Button,
     [CellGroup.name]: CellGroup,
-    [Icon.name]: Icon
+    [Icon.name]: Icon,
+    [NavBar.name]: NavBar
   },
   data() {
     return {
@@ -102,10 +104,10 @@ export default {
         let data = res.data;
         if (data.code == 200) {
           this.$store.commit("setLogin", true);
-          this.$store.commit("setUserInfo", data.data)
+          this.$store.commit("setUserInfo", data.data);
           this.loader.hide();
           this.$toast.success("登陆成功");
-          localStorage.setItem("userInfo", JSON.stringify(data.data))
+          localStorage.setItem("userInfo", JSON.stringify(data.data));
           this.$router.push("/");
         } else {
           this.loader.hide();

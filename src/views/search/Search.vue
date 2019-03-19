@@ -137,7 +137,7 @@ export default {
 <style lang="less" scoped>
 .search {
   .content {
-    margin-top: 80px;
+    margin-top: 70px;
     padding: 10px;
     .logo {
       text-align: center;
