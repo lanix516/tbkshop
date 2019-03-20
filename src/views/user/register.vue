@@ -78,6 +78,7 @@ export default {
   },
   data() {
     return {
+      uid: 1,
       form: {
         username: "",
         password: "",
@@ -86,7 +87,11 @@ export default {
       passwordType: "password"
     };
   },
-  created() {},
+  mounted() {
+    if (this.$route.params.uid) {
+      this.uid = this.$route.params.uid;
+    }
+  },
   methods: {
     showPassword() {
       this.passwordType = this.passwordType == "password" ? "" : "password";
@@ -112,7 +117,7 @@ export default {
       let form = new FormData();
       form.append("phone", this.form.username);
       form.append("pwd", this.form.password);
-      this.axios.post("/reg/1/", form).then(res => {
+      this.axios.post(`/reg/${this.uid}`, form).then(res => {
         let data = res.data;
         if (data.code == 200) {
           this.$store.commit("setLogin", true);

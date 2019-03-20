@@ -62,6 +62,15 @@ export default new Router({
       }
     },
     {
+      name: "register",
+      path: "/register/:uid",
+      component: () => import("./views/user/register.vue"),
+      meta: {
+        title: "用户注册",
+        fullScreen: true
+      }
+    },
+    {
       name: "login",
       path: "/login",
       component: () => import("./views/user/login.vue"),
