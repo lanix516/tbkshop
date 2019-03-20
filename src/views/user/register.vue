@@ -117,7 +117,7 @@ export default {
       let form = new FormData();
       form.append("phone", this.form.username);
       form.append("pwd", this.form.password);
-      this.axios.post(`/reg/${this.uid}`, form).then(res => {
+      this.axios.post(`/reg/${this.uid}/`, form).then(res => {
         let data = res.data;
         if (data.code == 200) {
           this.$store.commit("setLogin", true);
