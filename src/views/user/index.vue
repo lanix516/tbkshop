@@ -41,6 +41,14 @@
     <van-cell-group title="返利操作" class="user-group">
       <van-cell icon="cash-back-record" title="提取返利" is-link/>
       <van-cell icon="records" title="提取记录" is-link/>
+      <van-cell
+        class="push-btn"
+        icon="hot-o"
+        title="我要推广"
+        @click="pushInfo"
+        :data-clipboard-text="shareUrl"
+        is-link
+      />
       <van-cell icon="todo-list-o" title="推广记录" is-link/>
     </van-cell-group>
 
@@ -53,6 +61,7 @@
 
 <script>
 import { Row, Col, Icon, Cell, CellGroup } from "vant";
+import Clipboard from "clipboard";
 
 export default {
   components: {
@@ -73,12 +82,37 @@ export default {
     }
     this.getUserInfo();
   },
+  computed: {
+    shareUrl() {
+      return;
+      `最强淘宝返利网，安全高效，买到还能赚到！网址  
+      https://www.chengdongkeji.com/#/register/${
+        this.$store.state.userInfo.uid
+      }`;
+    }
+  },
   methods: {
     getUserInfo() {
       let url = `/info`;
       this.axios.get(url).then(res => {
         let data = res.data;
         this.info = data.data;
+      });
+    },
+    pushInfo() {
+      // https://www.chengdongkeji.com/#/register/id
+
+      var clipboard = new Clipboard(".push-btn");
+      clipboard.on("success", e => {
+        this.$toast("推广链接已经复制到粘贴板, 快去发送给好友吧");
+        // 释放内存
+        clipboard.destroy();
+      });
+      clipboard.on("error", e => {
+        // 不支持复制
+        console.log("该浏览器不支持自动复制");
+        // 释放内存
+        clipboard.destroy();
       });
     }
   }
