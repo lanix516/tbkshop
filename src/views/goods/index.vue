@@ -10,7 +10,9 @@
     </van-swipe>
     <van-cell-group>
       <van-cell>
-        <div class="goods-title">{{ goods.title }}</div>
+        <div class="goods-title">
+          <span v-html="goods.title"></span>
+        </div>
         <div class="goods-price">原价：{{ goods.zkPrice }}</div>
         <div class="coupon-price">
           券后价格：{{afterPrice}}元

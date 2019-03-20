@@ -25,4 +25,7 @@ body {
   background-color: #f8f8f8;
   -webkit-font-smoothing: antialiased;
 }
+.H {
+  color: #ff0000;
+}
 </style>

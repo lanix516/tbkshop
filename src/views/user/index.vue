@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user">
     <img class="user-poster" :src="require('../../assets/images/banner.jpg')">
     <van-row class="user-links">
       <van-col span="12">
@@ -120,6 +120,7 @@ export default {
 
 <style lang="less">
 .user {
+  padding-bottom: 55px;
   &-poster {
     width: 100%;
     display: block;
