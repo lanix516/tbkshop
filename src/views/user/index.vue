@@ -4,11 +4,11 @@
     <van-row class="user-links">
       <van-col span="12">
         <van-icon name="refund-o" size="36px"/>
-        <p class="back-money">待提返利：18.00</p>
+        <p class="back-money">当前返利总额：{{info.taobi+info.reckonTaobi}}</p>
       </van-col>
       <van-col span="12">
         <van-icon name="cart-circle-o" size="36px"/>
-        <p class="back-money">共节省：200.00</p>
+        <p class="back-money">共节省：{{info.tixiantaobi}}</p>
       </van-col>
       <!-- 
       <van-col span="6">
@@ -21,13 +21,13 @@
       </van-col>-->
     </van-row>
     <van-cell-group class="user-group">
-      <van-cell icon="balance-o" value="100.00">
+      <van-cell icon="balance-o" :value="info.taobi">
         <template slot="title">
           <span class="custom-text">可提现</span>
           <van-icon name="question-o" color="#1989fa" @click="$toast('当前可以提现的账户总额')"/>
         </template>
       </van-cell>
-      <van-cell icon="clock-o" title="待结算" value="80.00">
+      <van-cell icon="clock-o" title="待结算" :value="info.reckonTaobi">
         <template slot="title">
           <span class="custom-text">待结算</span>
           <van-icon
@@ -62,9 +62,24 @@ export default {
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup
   },
+  data() {
+    return {
+      info: {}
+    };
+  },
   mounted() {
     if (!this.$store.state.isLogin) {
       this.$router.push("/login");
+    }
+    this.getUserInfo();
+  },
+  methods: {
+    getUserInfo() {
+      let url = `/info`;
+      this.axios.get(url).then(res => {
+        let data = res.data;
+        this.info = data.data;
+      });
     }
   }
 };
