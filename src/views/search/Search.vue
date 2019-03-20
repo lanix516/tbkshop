@@ -1,11 +1,10 @@
 <template>
   <div class="search">
-    <van-nav-bar
-      title="多多返利网"
-      :right-text="$store.state.isLogin?'':'登陆'"
-      @click-right="gotoLogin"
-      :left-arrow="false"
-    />
+    <van-nav-bar title="多多返利网" :left-arrow="false">
+      <van-icon @click="showActive=true" v-if="$store.state.isLogin" name="contact" slot="right"/>
+      <span @click="gotoLogin" v-if="!$store.state.isLogin" slot="right">登陆</span>
+    </van-nav-bar>
+    <van-actionsheet v-model="showActive" :actions="actions" @select="onSelectAction"/>
     <div class="content">
       <div class="logo">
         <img :src="require('../../assets/images/dd64.png')">
@@ -47,7 +46,17 @@
 </template>
 
 <script>
-import { Button, Field, Cell, CellGroup, Icon, Row, Col, NavBar } from "vant";
+import {
+  Button,
+  Field,
+  Cell,
+  CellGroup,
+  Icon,
+  Row,
+  Col,
+  NavBar,
+  Actionsheet
+} from "vant";
 
 export default {
   components: {
@@ -58,11 +67,22 @@ export default {
     [Icon.name]: Icon,
     [Row.name]: Row,
     [Col.name]: Col,
-    [NavBar.name]: NavBar
+    [NavBar.name]: NavBar,
+    [Actionsheet.name]: Actionsheet
   },
 
   data() {
     return {
+      showActive: false,
+      actions: [
+        {
+          name: "用户: ",
+          subname: this.$store.state.userInfo.phone
+        },
+        {
+          name: "退出登陆"
+        }
+      ],
       goodMessage: ""
     };
   },
@@ -74,6 +94,14 @@ export default {
   computed: {},
 
   methods: {
+    onSelectAction(item) {
+      this.showActive = false;
+      if (item.name == "退出登陆") {
+        localStorage.removeItem("userInfo");
+        this.$store.commit("setLogin", false);
+        this.$store.commit("setUserInfo", "");
+      }
+    },
     getClipBoard() {
       this.$nextTick().then(() => {
         navigator.permissions
