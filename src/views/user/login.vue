@@ -2,27 +2,31 @@
   <div class="login">
     <van-nav-bar title="多多返利网" left-text="返回" @click-left="$router.push('/')" left-arrow/>
     <van-row type="flex" justify="center">
-      <van-col span="20">
+      <van-col span="24">
         <div style="margin:80px 0">
           <div class="page-logo">
             <img src="../../assets/images/dd.png">
           </div>
           <van-cell-group>
-            <van-field
-              v-model="form.username"
-              required
-              clearable
-              label="手机号"
-              placeholder="请输入注册使用的手机号"
-            />
+            <van-cell>
+              <van-field
+                v-model="form.username"
+                required
+                clearable
+                label="手机号"
+                placeholder="请输入注册使用的手机号"
+              />
+            </van-cell>
+            <van-cell>
+              <van-field
+                v-model="form.password"
+                type="password"
+                label="密码"
+                placeholder="请输入密码"
+                required
+              />
+            </van-cell>
 
-            <van-field
-              v-model="form.password"
-              type="password"
-              label="密码"
-              placeholder="请输入密码"
-              required
-            />
             <!-- <van-field
               v-model="form.phone"
               label="手机号"
@@ -65,7 +69,7 @@
   </div>
 </template>
 <script>
-import { Row, Col, Field, Button, CellGroup, Icon, NavBar } from "vant";
+import { Row, Col, Field, Button, CellGroup, Icon, NavBar, Cell } from "vant";
 export default {
   components: {
     [Row.name]: Row,
@@ -73,6 +77,7 @@ export default {
     [Field.name]: Field,
     [Button.name]: Button,
     [CellGroup.name]: CellGroup,
+    [Cell.name]: Cell,
     [Icon.name]: Icon,
     [NavBar.name]: NavBar
   },

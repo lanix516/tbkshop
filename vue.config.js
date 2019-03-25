@@ -10,7 +10,7 @@ module.exports = {
         secure: false,
         pathRewrite: {
           "^/api": "/interface"
-        }      
+        }
       }
     }
   }

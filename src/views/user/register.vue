@@ -3,32 +3,36 @@
     <van-nav-bar title="多多返利网" left-text="返回" @click-left="$router.back()" left-arrow/>
 
     <van-row type="flex" justify="center">
-      <van-col span="20">
+      <van-col span="24">
         <div style="margin:80px 0">
           <div class="page-logo">
             <img src="../../assets/images/dd.png">
           </div>
           <van-cell-group>
-            <van-field
-              v-model="form.username"
-              required
-              label="手机号"
-              placeholder="请输入手机号"
-              left-icon="phone-o"
-              right-icon="close"
-              @click-right-icon="clearName"
-            />
+            <van-cell>
+              <van-field
+                v-model="form.username"
+                required
+                label="手机号"
+                placeholder="请输入手机号"
+                left-icon="phone-o"
+                right-icon="close"
+                @click-right-icon="clearName"
+              />
+            </van-cell>
+            <van-cell>
+              <van-field
+                v-model="form.password"
+                :type="passwordType"
+                label="密码"
+                placeholder="请输入密码"
+                left-icon="bag-o"
+                right-icon="eye-o"
+                @click-right-icon="showPassword"
+                required
+              />
+            </van-cell>
 
-            <van-field
-              v-model="form.password"
-              :type="passwordType"
-              label="密码"
-              placeholder="请输入密码"
-              left-icon="bag-o"
-              right-icon="eye-o"
-              @click-right-icon="showPassword"
-              required
-            />
             <!-- <van-field
               v-model="form.phone"
               label="手机号"
@@ -66,7 +70,7 @@
   </div>
 </template>
 <script>
-import { Row, Col, Field, Button, CellGroup, NavBar } from "vant";
+import { Row, Col, Field, Button, CellGroup, NavBar, Cell } from "vant";
 export default {
   components: {
     [Row.name]: Row,
@@ -74,6 +78,7 @@ export default {
     [Field.name]: Field,
     [Button.name]: Button,
     [CellGroup.name]: CellGroup,
+    [Cell.name]: Cell,
     [NavBar.name]: NavBar
   },
   data() {

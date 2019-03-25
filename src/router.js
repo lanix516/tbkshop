@@ -27,6 +27,16 @@ export default new Router({
       }
     },
     {
+      name: "alipay",
+      path: "/alipay",
+      component: () => import("./views/user/alipay")
+    },
+    {
+      name: "cash",
+      path: "/cash",
+      component: () => import("./views/user/cash")
+    },
+    {
       name: "cart",
       path: "/cart",
       component: () => import("./views/cart"),

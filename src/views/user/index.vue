@@ -39,7 +39,7 @@
       </van-cell>
     </van-cell-group>
     <van-cell-group title="返利操作" class="user-group">
-      <van-cell icon="cash-back-record" title="提取返利" is-link/>
+      <van-cell icon="cash-back-record" title="提取返利" is-link url="/#/cash"/>
       <van-cell icon="records" title="提取记录" is-link/>
       <van-cell
         class="push-btn"
@@ -54,8 +54,9 @@
 
     <van-cell-group title="账户">
       <van-cell icon="shopping-cart-o" title="全部订单" is-link/>
-      <van-cell icon="alipay" title="返利账号" is-link/>
+      <van-cell icon="alipay" title="返利账号" is-link url="/#/alipay"/>
     </van-cell-group>
+    <router-view/>
   </div>
 </template>
 
