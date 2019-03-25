@@ -47,13 +47,13 @@
           <p class="other-title">其他方式登陆</p>
           <van-row type="flex" justify="space-between">
             <van-col span="6">
-              <img src="../../assets/images/taobao.png">
+              <img @click="showMessage()" src="../../assets/images/taobao.png">
             </van-col>
             <van-col span="6">
-              <img src="../../assets/images/wecaht.png">
+              <img @click="showMessage()" src="../../assets/images/wecaht.png">
             </van-col>
             <van-col span="6">
-              <img src="../../assets/images/QQ.png">
+              <img @click="showMessage()" src="../../assets/images/QQ.png">
             </van-col>
           </van-row>
         </div>
@@ -117,6 +117,9 @@ export default {
     },
     gotoRegister() {
       this.$router.push("/register");
+    },
+    showMessage() {
+      this.$toast("该功能后续开放");
     }
   }
 };

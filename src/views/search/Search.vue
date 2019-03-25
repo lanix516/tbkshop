@@ -23,7 +23,7 @@
     </div>
     <div class="info-area">
       <van-row justify="center">
-        <van-col span="6" style="text-align:center">
+        <!-- <van-col span="6" style="text-align:center">
           <van-icon name="fire" size="32px"/>
         </van-col>
         <van-col span="6" style="text-align:center">
@@ -34,7 +34,7 @@
         </van-col>
         <van-col span="6" style="text-align:center">
           <van-icon name="lock" size="32px"/>
-        </van-col>
+        </van-col>-->
         <van-col :span="24" v-if="!$store.state.isLogin">
           <div class="info-text">
             <van-icon name="info" size="14px" style="vertical-align: middle;margin-right: 5px;"/>请先登陆并完善账户信息，以便系统转账
