@@ -4,12 +4,13 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://tk.ngrok.xiaomiqiu.cn",
+        target: "https://www.chengdongkeji.com",
         changeOrigin: true,
         ws: true,
+        secure: false,
         pathRewrite: {
-          "^/api": ""
-        }
+          "^/api": "/interface"
+        }      
       }
     }
   }
