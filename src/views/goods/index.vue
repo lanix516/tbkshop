@@ -42,25 +42,34 @@
       <van-cell title="为您节省" :value="goods.couponAmount" v-if="hasCoupon"/>
       <van-cell title="返利" :value="formatPrice(goods.tkCommFee)"/>
     </van-cell-group>
-    <van-goods-action>
+    <van-goods-action style="z-index:2">
       <van-goods-action-mini-btn icon="chat-o">客服</van-goods-action-mini-btn>
       <van-goods-action-mini-btn
         :data-clipboard-text="goods.share"
         class="copy-btn"
-        @click="copyInfo(2)"
-        icon="friends"
-        text="QQ分享"
-      />
-      <van-goods-action-mini-btn
-        :data-clipboard-text="goods.share"
-        class="copy-btn"
         @click="copyInfo(1)"
-        icon="chat"
-        text="微信分享"
+        icon="friends"
+        text="分享"
       />
+
       <!-- <van-goods-action-big-btn default>转发到微信</van-goods-action-big-btn>
       <van-goods-action-big-btn primary>转发到QQ</van-goods-action-big-btn>-->
-      <van-goods-action-big-btn :url="goods.couponShortLinkUrl">打开淘宝购买</van-goods-action-big-btn>
+      <!-- <van-goods-action-big-btn :url="goods.couponShortLinkUrl">打开淘宝购买</van-goods-action-big-btn> -->
+      <van-goods-action-big-btn @click="openPopup">前往淘宝购买</van-goods-action-big-btn>
+      <van-popup v-model="showPop">
+        <van-panel title="复制内容">
+          <div class="pop-content">
+            <p v-html="goods.shortshare"></p>
+          </div>
+          <div slot="footer">
+            <van-goods-action-big-btn
+              class="coyp-tb"
+              :data-clipboard-text="goods.shortshare"
+              @click="copyToTb"
+            >一键复制</van-goods-action-big-btn>
+          </div>
+        </van-panel>
+      </van-popup>
     </van-goods-action>
   </div>
 </template>
@@ -81,7 +90,8 @@ import {
   GoodsAction,
   GoodsActionBigBtn,
   GoodsActionMiniBtn,
-  Popup
+  Popup,
+  Panel
 } from "vant";
 
 export default {
@@ -97,14 +107,16 @@ export default {
     [GoodsAction.name]: GoodsAction,
     [GoodsActionBigBtn.name]: GoodsActionBigBtn,
     [GoodsActionMiniBtn.name]: GoodsActionMiniBtn,
-    [Popup.name]: Popup
+    [Popup.name]: Popup,
+    [Panel.name]: Panel
   },
   props: ["keyword"],
   data() {
     return {
       showClipboard: false,
       goods: {},
-      loader: ""
+      loader: "",
+      showPop: false
     };
   },
   created() {
@@ -132,10 +144,9 @@ export default {
   },
   methods: {
     copyInfo(idx) {
-      let target = idx == 1 ? "微信" : "QQ";
       var clipboard = new Clipboard(".copy-btn");
       clipboard.on("success", e => {
-        this.$toast(`复制成功,请打开${target}粘贴`);
+        this.$toast(`复制成功,请前往粘贴`);
         // 释放内存
         clipboard.destroy();
       });
@@ -144,6 +155,23 @@ export default {
         console.log("该浏览器不支持自动复制");
         // 释放内存
         clipboard.destroy();
+      });
+    },
+    copyToTb() {
+      var clipboard = new Clipboard(".coyp-tb");
+      clipboard.on("success", e => {
+        this.$toast(`复制成功`);
+        // 释放内存
+        clipboard.destroy();
+        this.showPop = false;
+        this.openTaobao();
+      });
+      clipboard.on("error", e => {
+        // 不支持复制
+        console.log("该浏览器不支持自动复制");
+        // 释放内存
+        clipboard.destroy();
+        this.showPop = false;
       });
     },
     getGoodDetail() {
@@ -165,7 +193,12 @@ export default {
     formatPrice(price) {
       return price ? price.toFixed(2) : 0;
     },
-
+    openPopup() {
+      this.showPop = true;
+    },
+    openTaobao() {
+      window.location.href = "taobao://";
+    },
     onClickCart() {
       this.$router.push("cart");
     }
@@ -223,6 +256,19 @@ export default {
 
   &-tag {
     margin-left: 5px;
+  }
+}
+.van-popup {
+  width: 80%;
+  box-sizing: border-box;
+  .pop-content {
+    background-color: aliceblue;
+    color: #666;
+    font-size: 14px;
+    line-height: 18px;
+    word-break: break-all;
+    word-wrap: break-word;
+    margin: 15px 10px;
   }
 }
 </style>

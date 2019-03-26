@@ -16,9 +16,12 @@ import { Toast } from "vant";
 Vue.use(Toast);
 import { List } from "vant";
 Vue.use(List);
-
-Axios.defaults.baseURL = "https://www.chengdongkeji.com/interface/";
-//Axios.defaults.baseURL = "/api";
+let test = false;
+if (test) {
+  Axios.defaults.baseURL = "/api";
+} else {
+  Axios.defaults.baseURL = "https://www.chengdongkeji.com/interface/";
+}
 Axios.defaults.headers = {
   "Content-Type": "multipart/form-data"
 };
