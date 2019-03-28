@@ -43,9 +43,18 @@ export default {
       }
     };
   },
-  mounted() {},
+  mounted() {
+    this.checkAliCount();
+  },
   computed: {},
   methods: {
+    checkAliCount() {
+      let url = `interface/tixian`;
+      this.axios.get(url).then(res => {
+        let result = res.data;
+        this.info = result.data;
+      });
+    },
     postAlipay() {
       if (!this.info.name) {
         this.$toast("请输入该支付宝账号注册者的姓名");

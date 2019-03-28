@@ -9,7 +9,7 @@
             v-model="taobi"
             required
             clearable
-            label="提现金额"
+            label="提现金额(元)"
             left-icon="alipay"
           />
         </van-cell>
@@ -41,18 +41,41 @@ export default {
   },
   data() {
     return {
-      taobi: 0
+      taobi: 0,
+      aliCount: false
     };
   },
-  mounted() {},
+  mounted() {
+    this.checkAliCount();
+  },
   computed: {},
   methods: {
+    checkAliCount() {
+      let url = `interface/tixian`;
+      this.axios.get(url).then(res => {
+        let result = res.data;
+        this.aliCount = result.data.zhifubao ? true : false;
+      });
+    },
     postCash() {
+      if (!this.aliCount) {
+        this.$toast("请先完善个人资料，填写提现");
+        return false;
+      }
       if (!this.taobi) {
         this.$toast("请输入提现金额");
         return false;
       }
-
+      let _number = Number(this.taobi);
+      if (!_number) {
+        this.$toast("请输入正确的提现金额");
+        return false;
+      }
+      if (_number < 100 || _number > 10000) {
+        this.$toast("请输入正确的提现金额, ");
+        return false;
+      }
+      return false;
       let url = "/tixian";
       let form = new FormData();
       form.append("taobi", this.taobi);
