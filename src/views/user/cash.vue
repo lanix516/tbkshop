@@ -51,7 +51,7 @@ export default {
   computed: {},
   methods: {
     checkAliCount() {
-      let url = `interface/tixian`;
+      let url = `/tixian`;
       this.axios.get(url).then(res => {
         let result = res.data;
         this.aliCount = result.data.zhifubao ? true : false;
