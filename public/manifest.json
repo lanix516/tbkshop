@@ -1,11 +1,20 @@
 {
-  "name": "多多返利网",
-  "short_name": "开心购物,享受返利",
+  "name": "多多云返利",
+  "short_name": "多多云返利",
   "scope": "/",
-  "description": "购物返利网，选中淘宝商品，来本站搜索后再下单，轻松获取返利。",
-  "display": "standalone",
+  "description": "多多返利云平台，选中淘宝商品，来多多云搜索后再去下单，轻松获取返利。",
   "start_url": "/",
   "icons": [
+    {
+      "src": "./img/icons/dd.png",
+      "sizes": "57x57",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/icons/DD72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
     {
       "src": "./img/icons/android-chrome-192x192.png",
       "sizes": "192x192",
@@ -17,7 +26,6 @@
       "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#2196F3",
   "theme_color": "#4DBA87"
