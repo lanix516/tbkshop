@@ -1,6 +1,10 @@
 {
   "name": "多多返利网",
   "short_name": "开心购物,享受返利",
+  "scope": "/",
+  "description": "购物返利网，选中淘宝商品，来本站搜索后再下单，轻松获取返利。",
+  "display": "standalone",
+  "start_url": "/",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
