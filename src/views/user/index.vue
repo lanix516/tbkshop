@@ -1,5 +1,6 @@
 <template>
   <div class="user">
+    <round-btn @click.native="showLeaveMessage=true" style="right:10px" icon="ellipsis"></round-btn>
     <img class="user-poster" :src="require('../../assets/images/banner.jpg')">
     <van-row class="user-links">
       <van-col span="12">
@@ -10,15 +11,6 @@
         <van-icon name="cart-circle-o" size="36px"/>
         <p class="back-money">共节省：{{info.tixiantaobi}}</p>
       </van-col>
-      <!-- 
-      <van-col span="6">
-        <van-icon name="tosend" />
-        待发货
-      </van-col>
-      <van-col span="6">
-        <van-icon name="logistics" />
-        已发货
-      </van-col>-->
     </van-row>
     <van-cell-group class="user-group">
       <van-cell icon="balance-o" :value="info.taobi">
@@ -56,24 +48,44 @@
       <van-cell icon="shopping-cart-o" title="全部订单" is-link/>
       <van-cell icon="alipay" title="返利账号" is-link url="/#/alipay"/>
     </van-cell-group>
-    <router-view/>
+    <van-popup v-model="showLeaveMessage">
+      <van-cell-group>
+        <van-field
+          maxlength="200"
+          type="textarea"
+          v-model="leaveMessage"
+          placeholder="请输入留言"
+          rows="4"
+          autosize
+        />
+      </van-cell-group>
+      <van-cell-group style="text-align:center;padding:5px 0;">
+        <van-button type="primary">留言</van-button>
+      </van-cell-group>
+    </van-popup>
   </div>
 </template>
 
 <script>
-import { Row, Col, Icon, Cell, CellGroup } from "vant";
+import { Row, Col, Icon, Cell, CellGroup, Popup, Field, Button } from "vant";
 import Clipboard from "clipboard";
-
+import RoundBtn from "@/components/RoundBtn";
 export default {
   components: {
     [Row.name]: Row,
     [Col.name]: Col,
     [Icon.name]: Icon,
     [Cell.name]: Cell,
-    [CellGroup.name]: CellGroup
+    [CellGroup.name]: CellGroup,
+    [Popup.name]: Popup,
+    [Field.name]: Field,
+    [Button.name]: Button,
+    RoundBtn
   },
   data() {
     return {
+      showLeaveMessage: false,
+      leaveMessage: "",
       info: {}
     };
   },
@@ -147,6 +159,20 @@ export default {
       color: #ff0000;
       font-weight: 600;
     }
+  }
+}
+.van-popup {
+  width: 80%;
+  box-sizing: border-box;
+  .pop-content {
+    background-color: aliceblue;
+    color: #666;
+    font-size: 14px;
+    line-height: 18px;
+    word-break: break-all;
+    word-wrap: break-word;
+    margin: 15px 10px;
+    min-height: 150px;
   }
 }
 </style>
