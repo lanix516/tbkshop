@@ -60,7 +60,7 @@
         />
       </van-cell-group>
       <van-cell-group style="text-align:center;padding:5px 0;">
-        <van-button type="primary">留言</van-button>
+        <van-button @click="leave" type="primary">留言</van-button>
       </van-cell-group>
     </van-popup>
   </div>
@@ -126,6 +126,10 @@ export default {
         // 释放内存
         clipboard.destroy();
       });
+    },
+    leave() {
+      console.log(this.leaveMessage);
+      this.showLeaveMessage = false;
     }
   }
 };
