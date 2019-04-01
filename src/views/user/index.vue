@@ -98,9 +98,7 @@ export default {
   computed: {
     shareUrl() {
       return `最强淘宝返利云平台，安全高效，买到还能赚到！网址  
-      https://www.chengdongkeji.com/#/register/${
-        this.$store.state.userInfo.uid
-      }`;
+      https://www.chengdongkeji.com/register/${this.$store.state.userInfo.uid}`;
     }
   },
   methods: {
