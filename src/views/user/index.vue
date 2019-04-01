@@ -128,8 +128,18 @@ export default {
       });
     },
     leave() {
-      console.log(this.leaveMessage);
       this.showLeaveMessage = false;
+      if (this.leaveMessage) {
+        let url = `/jianyi`;
+        let form = new FormData();
+        form.append("content", this.leaveMessage);
+        this.axios.post(url, form).then(res => {
+          this.$toast("留言成功，感谢您的宝贵意见！");
+        });
+      } else {
+        this.$$toast("请输入留言");
+        return false;
+      }
     }
   }
 };
