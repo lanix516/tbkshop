@@ -196,6 +196,8 @@ export default {
 
         if (data.code == 200) {
           this.goods = data.data;
+        } else if (data.code == 301) {
+          location.href = data.data;
         } else {
           this.$toast(data.msg);
           this.$router.back();
