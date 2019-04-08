@@ -82,6 +82,7 @@ export default {
 
 <style lang="less">
 .alipay {
+  z-index: 1000;
   padding-bottom: 55px;
 }
 </style>

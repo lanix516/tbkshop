@@ -93,6 +93,7 @@ export default {
 
 <style lang="less">
 .cash {
+  z-index: 1000;
   padding-bottom: 55px;
 }
 </style>

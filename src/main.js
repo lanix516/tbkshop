@@ -5,7 +5,10 @@ import store from "./store";
 import "./registerServiceWorker";
 
 import Axios from "axios";
+//Import FastClick
+import FastClick from "fastclick";
 
+FastClick.attach(document.body);
 // Import Loading and stylesheet
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
@@ -16,7 +19,7 @@ import { Toast } from "vant";
 Vue.use(Toast);
 import { List } from "vant";
 Vue.use(List);
-let test = false;
+let test = true;
 if (test) {
   Axios.defaults.baseURL = "/api";
 } else {

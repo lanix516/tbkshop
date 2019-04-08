@@ -30,12 +30,38 @@ export default new Router({
     {
       name: "alipay",
       path: "/alipay",
-      component: () => import("./views/user/alipay")
+      component: () => import("./views/user/alipay"),
+      meta: {
+        title: "支付宝账号",
+        fullScreen: true
+      }
     },
     {
       name: "cash",
       path: "/cash",
-      component: () => import("./views/user/cash")
+      component: () => import("./views/user/cash"),
+      meta: {
+        title: "申请提现",
+        fullScreen: true
+      }
+    },
+    {
+      name: "cashlog",
+      path: "/cashlog",
+      component: () => import("./views/user/cashLog"),
+      meta: {
+        title: "提现记录",
+        fullScreen: true
+      }
+    },
+    {
+      name: "orderList",
+      path: "/orderlist",
+      component: () => import("./views/user/orderList"),
+      meta: {
+        title: "所有订单",
+        fullScreen: true
+      }
     },
     {
       name: "cart",
