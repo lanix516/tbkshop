@@ -11,6 +11,7 @@
             clearable
             label="提现金额(元)"
             left-icon="alipay"
+            placeholder="请输入提现金额"
           />
         </van-cell>
       </van-cell-group>
@@ -19,14 +20,13 @@
           <van-button @click="postCash" size="large" type="info">确认提交</van-button>
         </van-cell>
       </van-cell-group>
-      <notice notice="请务必确认提现支付宝账号正确，提现金额必须大于100"></notice>
+      <notice notice="请务必确认提现支付宝账号正确，提现金额必须大于10元"></notice>
     </div>
   </div>
 </template>
 
 <script>
 import { Icon, Cell, CellGroup, Field, NavBar, Button } from "vant";
-import Clipboard from "clipboard";
 import Notice from "@/components/Notice";
 
 export default {
@@ -41,7 +41,7 @@ export default {
   },
   data() {
     return {
-      taobi: 0,
+      taobi: "",
       aliCount: false
     };
   },
@@ -55,6 +55,14 @@ export default {
       this.axios.get(url).then(res => {
         let result = res.data;
         this.aliCount = result.data.zhifubao ? true : false;
+        if (!this.aliCount) {
+          this.$dialog({
+            title: "请完善资料",
+            message: "请填写真实支付宝账号和真实姓名，用于提现使用。"
+          }).then(() => {
+            this.$router.push("/alipay");
+          });
+        }
       });
     },
     postCash() {
@@ -75,7 +83,6 @@ export default {
         this.$toast("请输入正确的提现金额, ");
         return false;
       }
-      return false;
       let url = "/tixian";
       let form = new FormData();
       form.append("taobi", this.taobi);

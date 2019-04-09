@@ -15,11 +15,12 @@ import "vue-loading-overlay/dist/vue-loading.css";
 Vue.use(Loading);
 
 //Import Toast
-import { Toast } from "vant";
+import { Toast, Dialog, List } from "vant";
 Vue.use(Toast);
-import { List } from "vant";
 Vue.use(List);
-let test = true;
+Vue.use(Dialog);
+
+let test = false;
 if (test) {
   Axios.defaults.baseURL = "/api";
 } else {

@@ -36,8 +36,7 @@
 </template>
 
 <script>
-import { Icon, Cell, CellGroup, NavBar, Button, List, Card, Tag } from "vant";
-import Clipboard from "clipboard";
+import { Icon, Cell, CellGroup, NavBar, Button, Card, Tag } from "vant";
 import NoData from "@/components/NoData";
 export default {
   components: {
@@ -68,8 +67,8 @@ export default {
       let _current = this.page.currpage + 1;
       let _url = "/getorder/" + _current;
       if (_current > this.page.pagecount) {
-        return false;
         this.finished = true;
+        return false;
       }
       this.axios.get(_url).then(res => {
         this.loading = false;

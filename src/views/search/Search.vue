@@ -136,7 +136,7 @@ export default {
                   // 如果用户没有授权，则抛出异常
                   console.error("无法复制此文本：", err);
                 });
-              this.doSearch();
+              //this.doSearch();
             }
             // document.write('Pasted content: ', text);
             //   document.getElementById('taobao').innerText('aaa');
@@ -149,8 +149,24 @@ export default {
     },
     doSearch() {
       if (this.goodMessage) {
-        let tmp_message = encodeURIComponent(this.goodMessage);
-        this.$router.push(`/goods?keyword=${tmp_message}`);
+        if (this.$store.state.isLogin) {
+          let tmp_message = encodeURIComponent(this.goodMessage);
+          this.$router.push(`/goods?keyword=${tmp_message}`);
+        } else {
+          this.$dialog
+            .confirm({
+              title: "请先注册并登陆",
+              message: "未登录用户只能获得优惠券，无法正常获取返利，请先登录！"
+            })
+            .then(() => {
+              this.$router.push("/login");
+            })
+            .catch(() => {
+              this.$toast("未登录用户只能获得优惠券");
+              let tmp_message = encodeURIComponent(this.goodMessage);
+              this.$router.push(`/goods?keyword=${tmp_message}`);
+            });
+        }
       } else {
         this.$toast("请将淘口令或链接粘贴到文本框中");
       }

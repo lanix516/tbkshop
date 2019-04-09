@@ -1,20 +1,28 @@
 <template>
   <div class="alipay">
-    <van-nav-bar title="提现记录" left-text="返回" left-arrow @click-left="$router.back()"/>
+    <van-nav-bar title="推广记录" left-text="返回" left-arrow @click-left="$router.back()"/>
     <div style="margin-top:10px">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="getLog">
-        <van-cell v-for="item in cashList" :key="item.id" :label="item.status">
-          <span slot="title">{{getDate(item.getDate)}}</span>
-          <span>{{item.taobi|getMoney}} 元</span>
-        </van-cell>
+        <van-panel
+          v-for="item in tuiList"
+          :key="item.id"
+          :title="`${item.phone} (${item.name})`"
+          :status="'返利总额：￥'+item.superiorfanli"
+          style="margin-bottom:5px"
+        >
+          <div class="tui_content">
+            <p>成交次数：{{item.tradecount}}</p>
+            <p>推广人数：{{item.tuiCount}}</p>
+          </div>
+        </van-panel>
       </van-list>
-      <no-data v-if="cashList.length == 0&&!loading"></no-data>
+      <no-data v-if="tuiList.length == 0&&!loading"></no-data>
     </div>
   </div>
 </template>
 
 <script>
-import { Icon, Cell, CellGroup, NavBar, Button } from "vant";
+import { Icon, Cell, CellGroup, NavBar, Button, Panel } from "vant";
 import NoData from "@/components/NoData";
 export default {
   components: {
@@ -23,13 +31,14 @@ export default {
     [Cell.name]: Cell,
     [CellGroup.name]: CellGroup,
     [Button.name]: Button,
+    [Panel.name]: Panel,
     NoData
   },
   data() {
     return {
       loading: false,
       finished: false,
-      cashList: [],
+      tuiList: [],
       page: {
         currpage: 0,
         pagecount: 1
@@ -41,7 +50,7 @@ export default {
   methods: {
     getLog() {
       let _current = this.page.currpage + 1;
-      let _url = "/tixianlog/" + _current;
+      let _url = "/tuilog/" + _current;
       if (_current > this.page.pagecount) {
         this.finished = true;
         return false;
@@ -52,7 +61,7 @@ export default {
         let { pagecount, currpage, data } = result.data;
         this.page = { pagecount, currpage };
         if (data.length > 0) {
-          this.cashList = [...this.cashList, ...data];
+          this.tuiList = [...this.tuiList, ...data];
         }
         if (data.length < 20) {
           this.finished = true;
@@ -72,9 +81,23 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .alipay {
   z-index: 1000;
   padding-bottom: 55px;
+
+  .van-panel__content {
+    padding: 10px 15px;
+    .tui_content {
+      font-size: 13px;
+      color: #999;
+      display: flex;
+      p {
+        width: 50%;
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
 }
 </style>

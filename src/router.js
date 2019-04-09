@@ -64,6 +64,15 @@ export default new Router({
       }
     },
     {
+      name: "tuiLog",
+      path: "/tuilog",
+      component: () => import("./views/user/tuiLog"),
+      meta: {
+        title: "推广记录",
+        fullScreen: true
+      }
+    },
+    {
       name: "cart",
       path: "/cart",
       component: () => import("./views/cart"),

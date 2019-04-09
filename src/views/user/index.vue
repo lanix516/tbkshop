@@ -38,10 +38,10 @@
         icon="hot-o"
         title="我要推广"
         @click="pushInfo"
-        :data-clipboard-text="shareUrl"
+        :data-clipboard-text="shortUrl"
         is-link
       />
-      <van-cell icon="todo-list-o" title="推广记录" is-link/>
+      <van-cell icon="todo-list-o" title="推广记录" is-link url="/tuilog"/>
     </van-cell-group>
 
     <van-cell-group title="账户">
@@ -86,7 +86,9 @@ export default {
     return {
       showLeaveMessage: false,
       leaveMessage: "",
-      info: {}
+      info: {},
+      shortUrl: `最强淘宝返利云平台，安全高效，买到还能赚到！网址  
+      https://www.chengdongkeji.com/register/${this.$store.state.userInfo.uid}`
     };
   },
   mounted() {
@@ -108,6 +110,9 @@ export default {
         let data = res.data;
         if (data.code == 200) {
           this.info = data.data;
+          this.shortUrl = `最强淘宝返利云平台，安全高效，买到还能赚到！网址${
+            this.info.tuilink
+          }`;
         } else {
           localStorage.removeItem("userInfo");
           this.$store.commit("setLogin", false);
@@ -132,6 +137,20 @@ export default {
         clipboard.destroy();
       });
     },
+    // getShortUrl() {
+    //   let url = `https://api.weibo.com/short_url/shorten.json?source=2849184197&url_long=https://www.chengdongkeji.com/register/${
+    //     this.$store.state.userInfo.uid
+    //   }`;
+    //   this.axios.get(url).then(res => {
+    //     let result = res.data;
+    //     let urlobj = result.urls[0];
+    //     if (urlobj.result) {
+    //       this.shortUrl = `最强淘宝返利云平台，安全高效，买到还能赚到！网址 ${
+    //         urlobj.url_short
+    //       }`;
+    //     }
+    //   });
+    // },
     leave() {
       this.showLeaveMessage = false;
       if (this.leaveMessage) {
