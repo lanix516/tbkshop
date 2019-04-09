@@ -85,7 +85,8 @@ export default new Router({
       path: "/",
       component: () => import("./views/search/Search"),
       meta: {
-        title: "搜索"
+        title: "搜索",
+        keepAlive: true
       }
     },
     {

@@ -1,6 +1,6 @@
 <template>
   <div class="alipay">
-    <van-nav-bar title="支付宝账户" left-text="返回" left-arrow @click-left="$router.back()"/>
+    <van-nav-bar title="支付宝账户" left-text="返回" left-arrow @click-left="$router.push('/user')"/>
     <div style="margin-top:10px">
       <van-cell-group title="账户信息">
         <van-cell>

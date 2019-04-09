@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <keep-alive include="Home,Cart,User">
-      <router-view/>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"/>
     </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"/>
     <Tab v-show="!$route.meta.fullScreen"/>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="cash">
-    <van-nav-bar title="返利提现" left-text="返回" left-arrow @click-left="$router.back()"/>
+    <van-nav-bar title="返利提现" left-text="返回" left-arrow @click-left="$router.push('/user')"/>
     <div style="margin-top:10px">
       <van-cell-group title="提现">
         <van-cell>

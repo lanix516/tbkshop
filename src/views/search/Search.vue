@@ -14,9 +14,10 @@
           v-model="goodMessage"
           type="textarea"
           placeholder="请将淘口令或链接粘贴到此处"
-          rows="3"
+          rows="4"
           autosize
           border
+          clearable
         />
       </van-cell-group>
       <van-button @click="doSearch" class="search-btn" size="large" type="warning">查看优惠</van-button>
@@ -163,8 +164,6 @@ export default {
             })
             .catch(() => {
               this.$toast("未登录用户只能获得优惠券");
-              let tmp_message = encodeURIComponent(this.goodMessage);
-              this.$router.push(`/goods?keyword=${tmp_message}`);
             });
         }
       } else {
