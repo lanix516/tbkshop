@@ -4,6 +4,10 @@
     <div style="margin-top:10px">
       <van-cell-group title="提现">
         <van-cell>
+          <van-field :value="hasTaobi" label="返利总额(元)" left-icon="gold-coin" disabled/>
+        </van-cell>
+
+        <van-cell>
           <van-field
             type="number"
             v-model="taobi"
@@ -20,7 +24,7 @@
           <van-button @click="postCash" size="large" type="info">确认提交</van-button>
         </van-cell>
       </van-cell-group>
-      <notice notice="请务必确认提现支付宝账号正确，提现金额必须大于10元"></notice>
+      <notice notice="请务必确认提现支付宝账号正确，提现金额必须大于5元"></notice>
     </div>
   </div>
 </template>
@@ -41,6 +45,7 @@ export default {
   },
   data() {
     return {
+      hasTaobi: 0,
       taobi: "",
       aliCount: false
     };
@@ -55,6 +60,7 @@ export default {
       this.axios.get(url).then(res => {
         let result = res.data;
         this.aliCount = result.data.zhifubao ? true : false;
+        this.hasTaobi = result.data.taobi;
         if (!this.aliCount) {
           this.$dialog({
             title: "请完善资料",
@@ -79,8 +85,12 @@ export default {
         this.$toast("请输入正确的提现金额");
         return false;
       }
-      if (_number < 100 || _number > 10000) {
-        this.$toast("请输入正确的提现金额, ");
+      if (_number < 5 || _number > 10000) {
+        this.$toast("请输入正确的提现金额 ");
+        return false;
+      }
+      if (_number > this.hasTaobi) {
+        this.$toast("申请提现金额大于可提现额度");
         return false;
       }
       let url = "/tixian";

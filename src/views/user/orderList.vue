@@ -1,6 +1,6 @@
 <template>
   <div class="order-list">
-    <van-nav-bar title="全部订单" left-text="返回" left-arrow @click-left="$router.back()"/>
+    <van-nav-bar title="全部订单" left-text="返回" left-arrow @click-left="$router.push('/user')"/>
     <div style="margin-top:10px">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="getOrder">
         <van-card

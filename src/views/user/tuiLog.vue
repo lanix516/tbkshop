@@ -1,6 +1,6 @@
 <template>
   <div class="alipay">
-    <van-nav-bar title="推广记录" left-text="返回" left-arrow @click-left="$router.back()"/>
+    <van-nav-bar title="推广记录" left-text="返回" left-arrow @click-left="$router.push('/user')"/>
     <div style="margin-top:10px">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="getLog">
         <van-panel

@@ -40,11 +40,6 @@
           <van-cell-group style="padding:10px">
             <van-button type="info" size="large" @click="login">立即登陆</van-button>
           </van-cell-group>
-          <div style="padding:10px;text-align: right; font-size:13px; color:#666">
-            <p @click="gotoRegister">
-              <van-icon name="question-o" size="13px" style="vertical-align: middle;"/>没有账号？ 请先注册
-            </p>
-          </div>
         </div>
 
         <div class="other-way">
@@ -62,7 +57,7 @@
           </van-row>
         </div>
         <div class="notice">
-          <a href="/">免责条款</a>
+          <a href="/register">没有账号？ 请先注册</a>
         </div>
       </van-col>
     </van-row>

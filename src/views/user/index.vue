@@ -45,7 +45,7 @@
     </van-cell-group>
 
     <van-cell-group title="账户">
-      <van-cell icon="shopping-cart-o" title="全部订单" is-link url="orderlist"/>
+      <van-cell icon="shopping-cart-o" title="全部订单" is-link url="/orderlist"/>
       <van-cell icon="alipay" title="返利账号" is-link url="/alipay"/>
     </van-cell-group>
     <van-popup v-model="showLeaveMessage">
