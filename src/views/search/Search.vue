@@ -1,6 +1,9 @@
 <template>
   <div class="search">
     <van-nav-bar title="多多返利网" :left-arrow="false">
+      <a href="https://www.chengdongkeji.com/tkinfo/" target="_blank" slot="left">
+        <van-icon name="question-o"/>
+      </a>
       <van-icon @click="showActive=true" v-if="$store.state.isLogin" name="contact" slot="right"/>
       <span @click="gotoLogin" v-if="!$store.state.isLogin" slot="right">登陆</span>
     </van-nav-bar>
