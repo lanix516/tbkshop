@@ -5,7 +5,7 @@
     <van-row class="user-links">
       <van-col span="12">
         <van-icon name="refund-o" size="36px"/>
-        <p class="back-money">当前返利总额：{{info.taobi+info.reckonTaobi}}</p>
+        <p class="back-money">当前返利总额：{{(info.taobi+info.reckonTaobi).toFixed(2)}}</p>
       </van-col>
       <van-col span="12">
         <van-icon name="cart-circle-o" size="36px"/>
