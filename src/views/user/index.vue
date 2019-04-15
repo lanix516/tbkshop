@@ -33,14 +33,23 @@
     <van-cell-group title="返利操作" class="user-group">
       <van-cell icon="cash-back-record" title="提取返利" is-link url="/cash"/>
       <van-cell icon="records" title="提取记录" is-link url="/cashlog"/>
-      <van-cell
-        class="push-btn"
-        icon="hot-o"
-        title="我要推广"
-        @click="pushInfo"
-        :data-clipboard-text="shortUrl"
-        is-link
-      />
+      <van-cell icon="hot-o" title="我要推广" @click="showPop=true" is-link/>
+      <van-popup v-model="showPop">
+        <van-panel title="推广链接">
+          <div class="pop-content">
+            <p v-html="shortUrl"></p>
+          </div>
+          <div slot="footer">
+            <van-button
+              size="large"
+              type="primary"
+              class="push-btn"
+              :data-clipboard-text="shortUrl"
+              @click="pushInfo"
+            >一键复制</van-button>
+          </div>
+        </van-panel>
+      </van-popup>
       <van-cell icon="todo-list-o" title="推广记录" is-link url="/tuilog"/>
     </van-cell-group>
 
@@ -67,7 +76,17 @@
 </template>
 
 <script>
-import { Row, Col, Icon, Cell, CellGroup, Popup, Field, Button } from "vant";
+import {
+  Row,
+  Col,
+  Icon,
+  Cell,
+  CellGroup,
+  Popup,
+  Field,
+  Button,
+  Panel
+} from "vant";
 import Clipboard from "clipboard";
 import RoundBtn from "@/components/RoundBtn";
 export default {
@@ -80,10 +99,12 @@ export default {
     [Popup.name]: Popup,
     [Field.name]: Field,
     [Button.name]: Button,
+    [Panel.name]: Panel,
     RoundBtn
   },
   data() {
     return {
+      showPop: false,
       showLeaveMessage: false,
       leaveMessage: "",
       info: {},
@@ -136,6 +157,7 @@ export default {
         // 释放内存
         clipboard.destroy();
       });
+      this.showPop = false;
     },
     // getShortUrl() {
     //   let url = `https://api.weibo.com/short_url/shorten.json?source=2849184197&url_long=https://www.chengdongkeji.com/register/${
@@ -210,7 +232,7 @@ export default {
     word-break: break-all;
     word-wrap: break-word;
     margin: 15px 10px;
-    min-height: 150px;
+    min-height: 100px;
   }
 }
 </style>

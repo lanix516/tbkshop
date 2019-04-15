@@ -44,13 +44,7 @@
     </van-cell-group>
     <van-goods-action style="z-index:2">
       <van-goods-action-mini-btn icon="chat-o">客服</van-goods-action-mini-btn>
-      <van-goods-action-mini-btn
-        :data-clipboard-text="goods.share"
-        class="copy-btn"
-        @click="copyInfo(1)"
-        icon="friends"
-        text="分享"
-      />
+      <van-goods-action-mini-btn class="copy-btn" @click="openPopup(1)" icon="friends" text="分享"/>
 
       <!-- <van-goods-action-big-btn default>转发到微信</van-goods-action-big-btn>
       <van-goods-action-big-btn primary>转发到QQ</van-goods-action-big-btn>-->
@@ -59,12 +53,12 @@
       <van-popup v-model="showPop">
         <van-panel title="复制内容">
           <div class="pop-content">
-            <p v-html="goods.shortshare"></p>
+            <p v-html="short?goods.shortshare:goods.share"></p>
           </div>
           <div slot="footer">
             <van-goods-action-big-btn
               class="coyp-tb"
-              :data-clipboard-text="goods.shortshare"
+              :data-clipboard-text="short?goods.shortshare:goods.share"
               @click="copyToTb"
             >一键复制</van-goods-action-big-btn>
           </div>
@@ -116,7 +110,8 @@ export default {
       showClipboard: false,
       goods: {},
       loader: "",
-      showPop: false
+      showPop: false,
+      short: true
     };
   },
   created() {
@@ -207,7 +202,12 @@ export default {
     formatPrice(price) {
       return price ? price.toFixed(2) : 0;
     },
-    openPopup() {
+    openPopup(idx) {
+      if (idx == 1) {
+        this.short = false;
+      } else {
+        this.short = true;
+      }
       this.showPop = true;
     },
     openTaobao() {

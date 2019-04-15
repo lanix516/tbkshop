@@ -101,6 +101,8 @@ export default {
         if (result.code == 200) {
           this.$toast("提交成功");
           this.$router.back();
+        } else {
+          this.$toast(result.msg);
         }
       });
     }
