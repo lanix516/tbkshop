@@ -53,6 +53,9 @@ export default {
   mounted() {
     this.checkAliCount();
   },
+  activated() {
+    thsi.checkAliCount();
+  },
   computed: {},
   methods: {
     checkAliCount() {

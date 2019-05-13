@@ -107,7 +107,7 @@ export default {
 .order-list {
   z-index: 1000;
   padding-bottom: 55px;
-  background-color: white;
+  background-color: f8f8f8;
   p {
     margin: 0;
   }

@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     <van-search v-model="searchValue" placeholder="请粘贴淘口令或商品链接到此处" show-action @search="doSearch">
-      <div slot="action" @click="doSearch">搜索</div>
+      <div slot="action" @click="doSearch">
+        <span style="font-size:15px;font-weight:1000;color:#ff0000">搜索</span>
+      </div>
     </van-search>
 
     <div class="home-swipe">
@@ -63,8 +65,7 @@ export default {
   data() {
     return {
       showSearch: false,
-      searchValue:
-        "【优博58 圣元优博2段奶粉900g罐装  圣元优博 优博旗舰店官网】https://m.tb.cn/h.3EwUCmC 点击链接，再选择浏览器咑閞；或復·制这段描述￥NcXFbFPed2W￥后到淘♂寳♀",
+      searchValue: "",
       indexPage: 1,
       hotGoods: [],
       saleGroupGoods: [],
@@ -80,7 +81,26 @@ export default {
   methods: {
     doSearch() {
       // this.showSearch = true;
-      this.$router.push(`/goods?keyword=${this.searchValue}`);
+      if (this.searchValue) {
+        if (this.$store.state.isLogin) {
+          let tmp_message = encodeURIComponent(this.searchValue);
+          this.$router.push(`/goods?keyword=${tmp_message}`);
+        } else {
+          this.$dialog
+            .confirm({
+              title: "请先注册并登陆",
+              message: "未登录用户只能获得优惠券，无法正常获取返利，请先登录！"
+            })
+            .then(() => {
+              this.$router.push("/login");
+            })
+            .catch(() => {
+              this.$toast("未登录用户只能获得优惠券");
+            });
+        }
+      } else {
+        this.$toast("请将淘口令或链接粘贴到文本框中");
+      }
     },
     onLoad() {
       this.loading = false;
