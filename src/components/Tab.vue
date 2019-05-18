@@ -1,8 +1,8 @@
 <template>
   <div>
     <van-tabbar v-model="active" class="tab" style="z-index:999">
-      <!-- <van-tabbar-item icon="home-o" to="/home">首页</van-tabbar-item> -->
-      <van-tabbar-item icon="search" to="/">搜索</van-tabbar-item>
+      <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>
+      <van-tabbar-item icon="search" to="/search">搜索</van-tabbar-item>
       <van-tabbar-item icon="contact" to="/user">用户</van-tabbar-item>
     </van-tabbar>
   </div>

@@ -13,10 +13,11 @@ export default new Router({
     },
     {
       name: "home",
-      path: "/home",
+      path: "/",
       component: () => import("./views/index"),
       meta: {
-        title: "首页"
+        title: "首页",
+        keepAlive: true,
       }
     },
     {
@@ -82,7 +83,7 @@ export default new Router({
     },
     {
       name: "search",
-      path: "/",
+      path: "/search",
       component: () => import("./views/search/Search"),
       meta: {
         title: "搜索",

@@ -1,110 +1,181 @@
 <template>
   <div class="home">
-    <van-search v-model="searchValue" placeholder="请粘贴淘口令或商品链接到此处" show-action @search="doSearch">
+    <van-nav-bar title="多多返利网" :left-arrow="false">
+      <a href="https://www.chengdongkeji.com/tkinfo/" target="_blank" slot="left">
+        <van-icon name="question-o"/>
+      </a>
+      <van-icon @click="showActive=true" v-if="$store.state.isLogin" name="contact" slot="right"/>
+      <span @click="gotoLogin" v-if="!$store.state.isLogin" slot="right">登陆</span>
+    </van-nav-bar>
+    <van-actionsheet v-model="showActive" :actions="actions" @select="onSelectAction"/>
+
+    <van-search v-model="searchValue" placeholder="点击搜索" show-action @click="doSearch">
       <div slot="action" @click="doSearch">
         <span style="font-size:15px;font-weight:1000;color:#ff0000">搜索</span>
       </div>
     </van-search>
 
     <div class="home-swipe">
-      <div class="home-swipe-head">
+      <!-- <div class="home-swipe-head">
         <span class="recommend">今日推荐</span>
         <span class="tips">每天都有新发现</span>
         <span class="swipe-num">
           <span class="indexPage">{{indexPage+1}}</span>
           <span class="pageNum">/4</span>
         </span>
-      </div>
+      </div>-->
       <van-swipe :autoplay="3000" class="swipe" @change>
         <van-swipe-item class="swipe-item">
           <img src="../../assets/images/swipe-1.jpg">
         </van-swipe-item>
       </van-swipe>
     </div>
-
-    <!-- <div class="recommend">
-      <div class="recommend-title">
-        <div class="border"></div>
-        <div class="title">朋友圈的好货推荐</div>
-        <div class="border"></div>
-      </div>
-    </div>-->
-    <div class="goods-list">
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <van-row>
-          <van-col v-for="(item, idx) in list" :key="idx" span="12">
-            <div class="good-item">
-              <div class="van-hairline--surround">
-                <div class="good-box">
-                  <div>pic</div>
-                  <div>12312312312312313123</div>
-                  <div>￥84</div>
-                  <div>推荐：111</div>
+    <van-tabs v-model="activeClass" sticky @change="onTabChange">
+      <van-tab v-for="item in classList" :title="item" :key="item">
+        <div class="goods-list">
+          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+            <van-row gutter="5">
+              <van-col v-for="(item, idx) in list" :key="idx" span="12">
+                <div class="good-item" @click="gotoDetail(item)">
+                  <div class="good-box">
+                    <img :src="item.pictUrl">
+                    <div class="name">{{item.title}}</div>
+                    <div class="info">
+                      <div class="oldprice">￥{{item.zkPrice}}</div>
+                      <div class="price">优惠价￥{{item.quanhoujia}}</div>
+                    </div>
+                    <div class="info">
+                      <div class="slogan">{{item.couponAmount}}元券</div>
+                      <div class="back">返￥{{item.tkCommFee}}</div>
+                    </div>
+                    <div class="info">
+                      <div class="sell">30天销量 {{item.biz30day}}</div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </van-col>
-        </van-row>
-      </van-list>
-    </div>
+              </van-col>
+            </van-row>
+          </van-list>
+        </div>
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 
 <script>
-import { Search, Swipe, SwipeItem, Row, Col } from "vant";
+import {
+  Search,
+  Swipe,
+  SwipeItem,
+  Row,
+  Col,
+  NavBar,
+  Icon,
+  Tab,
+  Tabs,
+  Actionsheet
+} from "vant";
 export default {
   components: {
     [Search.name]: Search,
     [Swipe.name]: Swipe,
     [SwipeItem.name]: SwipeItem,
-
+    [NavBar.name]: NavBar,
     [Row.name]: Row,
-    [Col.name]: Col
+    [Col.name]: Col,
+    [Icon.name]: Icon,
+    [Tabs.name]: Tabs,
+    [Tab.name]: Tab,
+    [Actionsheet.name]: Actionsheet
   },
   name: "Home",
   data() {
     return {
       showSearch: false,
       searchValue: "",
+      count: 0,
       indexPage: 1,
       hotGoods: [],
       saleGroupGoods: [],
-      list: [1, 2, 3],
+      classList: [],
+      activeClass: 0,
+      activeClassName: "",
+      list: [],
       error: false,
       loading: false,
-      finished: false
+      finished: false,
+      showActive: false,
+      actions: [
+        {
+          name: "用户: ",
+          subname: this.$store.state.userInfo.phone
+        },
+        {
+          name: "退出登陆"
+        }
+      ]
     };
   },
-  mounted() {},
+  mounted() {
+    this.getGoodsClass();
+  },
 
   computed: {},
   methods: {
-    doSearch() {
-      // this.showSearch = true;
-      if (this.searchValue) {
-        if (this.$store.state.isLogin) {
-          let tmp_message = encodeURIComponent(this.searchValue);
-          this.$router.push(`/goods?keyword=${tmp_message}`);
-        } else {
-          this.$dialog
-            .confirm({
-              title: "请先注册并登陆",
-              message: "未登录用户只能获得优惠券，无法正常获取返利，请先登录！"
-            })
-            .then(() => {
-              this.$router.push("/login");
-            })
-            .catch(() => {
-              this.$toast("未登录用户只能获得优惠券");
-            });
-        }
-      } else {
-        this.$toast("请将淘口令或链接粘贴到文本框中");
+    gotoLogin() {
+      this.$router.push("/login");
+    },
+    onSelectAction(item) {
+      this.showActive = false;
+      if (item.name == "退出登陆") {
+        localStorage.removeItem("userInfo");
+        this.$store.commit("setLogin", false);
+        this.$store.commit("setUserInfo", "");
       }
     },
+    getGoodsClass() {
+      let url = `/g/yiji`;
+      this.axios.get(url).then(res => {
+        let data = res.data;
+        this.classList = data.data;
+        if (this.classList.length > 0) {
+          this.activeClassName = this.classList[0];
+          this.getClassGoods();
+        }
+      });
+    },
+    doSearch() {
+      this.$router.push("/search");
+    },
+    onTabChange(item, title) {
+      this.activeClassName = title;
+      this.list = [];
+      this.indexPage = 1;
+      this.getClassGoods();
+    },
     onLoad() {
-      this.loading = false;
-      //this.finished = true;
+      this.indexPage += 1;
+      this.getClassGoods();
+    },
+    getClassGoods() {
+      let url = "";
+      if (this.activeClassName) {
+        url = `/g/goods/${this.activeClassName}/${this.indexPage}`;
+      } else {
+        url = `/g/goods`;
+      }
+
+      this.axios.get(url).then(res => {
+        this.list = [...this.list, ...res.data.data];
+        this.count = res.data.count;
+        this.loading = false;
+        if (this.list.length >= this.count) {
+          this.finished = true;
+        }
+      });
+    },
+    gotoDetail(item) {
+      this.$router.push(`/goods?keyword=${item.details}`);
     }
   }
 };
@@ -114,12 +185,14 @@ export default {
 .home {
   background-color: #eee;
   margin-bottom: 50px;
+  overflow: hidden;
 }
 .home-swipe {
   box-sizing: border-box;
   padding: 4px 6px;
   background-color: #fff;
   border-bottom: 1px solid #dedede;
+  margin-bottom: 5px;
   &-head {
     padding: 4px 0;
     .recommend {
@@ -155,7 +228,54 @@ export default {
   margin-top: 5px;
   background-color: #ffffff;
   .good-item {
-    padding: 5px;
+    width: 100%;
+    border-radius: 20px;
+    margin-top: 10px;
+    img {
+      width: 100%;
+      border-radius: 20px 20px 0 0;
+    }
+    .name {
+      width: 92%;
+      padding: 5px 4%;
+      text-align: justify;
+      overflow: hidden;
+      font-size: 18px;
+    }
+    .info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      width: 92%;
+      padding: 5px 4% 5px 4%;
+      .oldprice {
+        color: #888;
+        font-size: 15px;
+        text-decoration: line-through;
+      }
+      .price {
+        color: #888;
+        font-size: 15px;
+      }
+      .slogan {
+        color: #fff;
+        background-color: #ff6600;
+        padding: 2px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .back {
+        border: 1px dashed #ff3300;
+        padding: 2px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #ff6600;
+      }
+      .sell {
+        color: #888;
+        font-size: 13px;
+      }
+    }
   }
 }
 </style>
