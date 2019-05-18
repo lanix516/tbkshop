@@ -163,7 +163,13 @@ export default {
               this.$router.push("/login");
             })
             .catch(() => {
-              this.$toast("未登录用户只能获得优惠券");
+              this.$toast({
+                message: "未登录用户只能获得优惠券！",
+                onClose: () => {
+                  let tmp_message = encodeURIComponent(this.goodMessage);
+                  this.$router.push(`/goods?keyword=${tmp_message}`);
+                }
+              });
             });
         }
       } else {

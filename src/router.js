@@ -110,7 +110,7 @@ export default new Router({
       }
     },
     {
-      name: "register",
+      name: "registeruser",
       path: "/register/:uid",
       component: () => import("./views/user/register.vue"),
       meta: {
