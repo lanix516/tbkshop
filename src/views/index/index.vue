@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <van-nav-bar title="多多返利网" :left-arrow="false">
+    <van-nav-bar title="多多云返利" :left-arrow="false">
       <a href="https://www.chengdongkeji.com/tkinfo/" target="_blank" slot="left">
         <van-icon name="question-o"/>
       </a>
@@ -9,27 +9,27 @@
     </van-nav-bar>
     <van-actionsheet v-model="showActive" :actions="actions" @select="onSelectAction"/>
 
-    <van-search v-model="searchValue" placeholder="点击搜索" show-action @click="doSearch">
+    <van-search v-model="searchValue" placeholder="前往搜索" show-action @click="doSearch">
       <div slot="action" @click="doSearch">
         <span style="font-size:15px;font-weight:1000;color:#ff0000">搜索</span>
       </div>
     </van-search>
 
-    <div class="home-swipe">
-      <!-- <div class="home-swipe-head">
+    <!-- <div class="home-swipe">
+      <div class="home-swipe-head">
         <span class="recommend">今日推荐</span>
         <span class="tips">每天都有新发现</span>
         <span class="swipe-num">
           <span class="indexPage">{{indexPage+1}}</span>
           <span class="pageNum">/4</span>
         </span>
-      </div>-->
+      </div>
       <van-swipe :autoplay="3000" class="swipe" @change>
         <van-swipe-item class="swipe-item">
           <img src="../../assets/images/swipe-1.jpg">
         </van-swipe-item>
       </van-swipe>
-    </div>
+    </div>-->
     <van-tabs v-model="activeClass" sticky @change="onTabChange">
       <van-tab v-for="item in classList" :title="item" :key="item">
         <div class="goods-list">
@@ -41,12 +41,12 @@
                     <img :src="item.pictUrl">
                     <div class="name">{{item.title}}</div>
                     <div class="info">
-                      <div class="oldprice">￥{{item.zkPrice}}</div>
-                      <div class="price">优惠价￥{{item.quanhoujia}}</div>
-                    </div>
-                    <div class="info">
                       <div class="slogan">{{item.couponAmount}}元券</div>
                       <div class="back">返￥{{item.tkCommFee}}</div>
+                    </div>
+                    <div class="info">
+                      <div class="oldprice">￥{{item.zkPrice}}</div>
+                      <div class="price">优惠价￥{{item.quanhoujia}}</div>
                     </div>
                     <div class="info">
                       <div class="sell">30天销量 {{item.biz30day}}</div>
