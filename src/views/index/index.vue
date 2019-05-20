@@ -14,22 +14,24 @@
         <span style="font-size:15px;font-weight:1000;color:#ff0000">搜索</span>
       </div>
     </van-search>
-
-    <!-- <div class="home-swipe">
-      <div class="home-swipe-head">
+    <div class="home-swipe">
+      <!-- <div class="home-swipe-head">
         <span class="recommend">今日推荐</span>
         <span class="tips">每天都有新发现</span>
         <span class="swipe-num">
           <span class="indexPage">{{indexPage+1}}</span>
           <span class="pageNum">/4</span>
         </span>
-      </div>
-      <van-swipe :autoplay="3000" class="swipe" @change>
+      </div>-->
+      <van-swipe :autoplay="3000" class="swipe">
         <van-swipe-item class="swipe-item">
-          <img src="../../assets/images/swipe-1.jpg">
+          <img src="../../assets/images/swper-1.jpg">
+        </van-swipe-item>
+        <van-swipe-item class="swipe-item">
+          <img src="../../assets/images/swper-2.jpg">
         </van-swipe-item>
       </van-swipe>
-    </div>-->
+    </div>
     <van-tabs v-model="activeClass" sticky @change="onTabChange">
       <van-tab v-for="item in classList" :title="item" :key="item">
         <div class="goods-list">

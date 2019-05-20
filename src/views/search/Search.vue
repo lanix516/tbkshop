@@ -18,6 +18,7 @@
           autosize
           border
           clearable
+          ref="searchArea"
         />
       </van-cell-group>
       <van-button @click="doSearch" class="search-btn" size="large" type="warning">查看优惠</van-button>
@@ -89,7 +90,7 @@ export default {
   },
 
   mounted() {
-    //this.$refs["searchArea"].focus();
+    this.$refs["searchArea"].focus();
     this.getClipBoard();
   },
   computed: {},
