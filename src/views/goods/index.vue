@@ -15,7 +15,7 @@
         </div>
         <div class="goods-price">原价：{{ goods.zkPrice }}</div>
         <div class="coupon-price">
-          券后价格：{{afterPrice}}元
+          券后价格：{{goods.quanhoujia}}元
           <van-tag type="danger" v-if="hasCoupon">{{goods.couponInfo}}</van-tag>
         </div>
         <div class="coupon-price">共为您节省(券+返利) {{formatPrice(goods.couponAmount+goods.tkCommFee)}}元</div>
