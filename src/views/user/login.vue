@@ -108,6 +108,7 @@ export default {
           this.loader.hide();
           this.$toast.success("登陆成功");
           localStorage.setItem("userInfo", JSON.stringify(data.data));
+          this.axios.defaults.headers.AuthUserId = data.data.uid;
           this.$router.push("/");
         } else {
           this.loader.hide();

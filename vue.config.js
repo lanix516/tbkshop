@@ -4,7 +4,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "https://www.chengdongkeji.com",
+        target: "https://www.ddyfl.com",
         changeOrigin: true,
         ws: true,
         secure: false,

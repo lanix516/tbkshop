@@ -109,7 +109,7 @@ export default {
       leaveMessage: "",
       info: {},
       shortUrl: `最强淘宝返利云平台，安全高效，买到还能赚到！网址  
-      https://www.chengdongkeji.com/register/${this.$store.state.userInfo.uid}`
+      https://www.ddyfl.com/register/${this.$store.state.userInfo.uid}`
     };
   },
   mounted() {
@@ -121,7 +121,7 @@ export default {
   computed: {
     shareUrl() {
       return `最强淘宝返利云平台，安全高效，买到还能赚到！网址  
-      https://www.chengdongkeji.com/register/${this.$store.state.userInfo.uid}`;
+      https://www.ddyfl.com/register/${this.$store.state.userInfo.uid}`;
     }
   },
   methods: {
@@ -143,7 +143,7 @@ export default {
       });
     },
     pushInfo() {
-      // https://www.chengdongkeji.com/#/register/id
+      // https://www.ddyfl.com/#/register/id
 
       var clipboard = new Clipboard(".push-btn");
       clipboard.on("success", e => {
@@ -160,7 +160,7 @@ export default {
       this.showPop = false;
     },
     // getShortUrl() {
-    //   let url = `https://api.weibo.com/short_url/shorten.json?source=2849184197&url_long=https://www.chengdongkeji.com/register/${
+    //   let url = `https://api.weibo.com/short_url/shorten.json?source=2849184197&url_long=https://www.ddyfl.com/register/${
     //     this.$store.state.userInfo.uid
     //   }`;
     //   this.axios.get(url).then(res => {

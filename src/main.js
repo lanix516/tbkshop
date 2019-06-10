@@ -24,12 +24,11 @@ let test = true;
 if (test) {
   Axios.defaults.baseURL = "/api";
 } else {
-  Axios.defaults.baseURL = "https://www.chengdongkeji.com/interface/";
+  Axios.defaults.baseURL = "https://www.ddyfl.com/interface/";
 }
 Axios.defaults.headers = {
   "Content-Type": "multipart/form-data"
 };
-Vue.prototype.axios = Axios;
 
 Vue.config.productionTip = false;
 let user_str = localStorage.getItem("userInfo");
@@ -37,7 +36,9 @@ if (user_str) {
   let user = JSON.parse(user_str);
   store.commit("setUserInfo", user);
   store.commit("setLogin", true);
+  Axios.defaults.headers.AuthUserId = user.uid;
 }
+Vue.prototype.axios = Axios;
 new Vue({
   router,
   store,

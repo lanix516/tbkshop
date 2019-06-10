@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <van-nav-bar title="多多云返利" :left-arrow="false">
-      <a href="https://www.chengdongkeji.com/tkinfo/" target="_blank" slot="left">
+      <a href="https://www.ddyfl.com/tkinfo/" target="_blank" slot="left">
         <van-icon name="question-o"/>
       </a>
       <van-icon @click="showActive=true" v-if="$store.state.isLogin" name="contact" slot="right"/>
