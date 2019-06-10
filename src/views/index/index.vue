@@ -61,6 +61,10 @@
         </div>
       </van-tab>
     </van-tabs>
+    
+    <van-popup v-model="showMission" class="pop-box">
+      <new-pop @trigger="gotoMission"></new-pop>
+    </van-popup>
   </div>
 </template>
 
@@ -75,8 +79,10 @@ import {
   Icon,
   Tab,
   Tabs,
-  Actionsheet
+  Actionsheet,
+  Popup
 } from "vant";
+import NewPop from "@/components/NewPop.vue"
 export default {
   components: {
     [Search.name]: Search,
@@ -88,11 +94,14 @@ export default {
     [Icon.name]: Icon,
     [Tabs.name]: Tabs,
     [Tab.name]: Tab,
-    [Actionsheet.name]: Actionsheet
+    [Actionsheet.name]: Actionsheet,
+    [Popup.name]:Popup,
+    NewPop
   },
   name: "Home",
   data() {
     return {
+      showMission:true,
       showSearch: false,
       searchValue: "",
       count: 0,
@@ -124,6 +133,9 @@ export default {
 
   computed: {},
   methods: {
+    gotoMission(){
+      this.showMission = false;
+    },
     gotoLogin() {
       this.$router.push("/login");
     },
@@ -242,7 +254,9 @@ export default {
       padding: 5px 4%;
       text-align: justify;
       overflow: hidden;
-      font-size: 18px;
+      font-size: 13px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     .info {
       display: flex;
@@ -279,5 +293,10 @@ export default {
       }
     }
   }
+}
+.pop-box {
+   border-radius: 10px;
+    background-color: #FF0000;
+    padding: 15px 5px
 }
 </style>
