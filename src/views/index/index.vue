@@ -24,11 +24,14 @@
         </span>
       </div>-->
       <van-swipe :autoplay="3000" class="swipe">
-        <van-swipe-item class="swipe-item">
-          <img src="../../assets/images/swper-1.jpg">
-        </van-swipe-item>
-        <van-swipe-item class="swipe-item">
-          <img src="../../assets/images/swper-2.jpg">
+        <van-swipe-item
+          class="swipe-item copy-swiper"
+          v-for="swiper in swiperList"
+          @click="gotoPage(swiper)"
+          :key="swiper.name"
+          :data-clipboard-text="swiper.taotoken"
+        >
+          <img :src="swiper.picturl">
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -48,7 +51,7 @@
                     </div>
                     <div class="info">
                       <div class="oldprice">￥{{item.zkPrice}}</div>
-                      <div class="price">优惠价￥{{item.quanhoujia}}</div>
+                      <div class="price">券后价￥{{item.quanhoujia}}</div>
                     </div>
                     <div class="info">
                       <div class="sell">30天销量 {{item.biz30day}}</div>
@@ -69,6 +72,8 @@
 </template>
 
 <script>
+import Clipboard from "clipboard";
+
 import {
   Search,
   Swipe,
@@ -116,6 +121,7 @@ export default {
       loading: false,
       finished: false,
       showActive: false,
+      swiperList: [],
       actions: [
         {
           name: "用户: ",
@@ -128,11 +134,35 @@ export default {
     };
   },
   mounted() {
+    this.getSwiperList();
     this.getGoodsClass();
   },
 
   computed: {},
   methods: {
+    getSwiperList() {
+      let url = `/poster`;
+      this.axios.get(url).then(res => {
+        let data = res.data;
+        this.swiperList = data.data;
+      });
+    },
+    gotoPage(swiper) {
+      var clipboard = new Clipboard(".copy-swiper");
+      clipboard.on("success", e => {
+        this.$toast(`复制成功`);
+        // 释放内存
+        clipboard.destroy();
+        window.location.href = "taobao://";
+      });
+      clipboard.on("error", e => {
+        // 不支持复制
+        console.log("该浏览器不支持自动复制");
+        // 释放内存
+        clipboard.destroy();
+        window.location.href = swiper.picthref;
+      });
+    },
     gotoMission() {
       this.showMission = false;
     },
