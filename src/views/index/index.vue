@@ -31,7 +31,7 @@
           :key="swiper.name"
           :data-clipboard-text="swiper.taotoken"
         >
-          <img :src="swiper.picturl">
+          <img :src="swiper.picturl" style="width:100%;max-height:149px;">
         </van-swipe-item>
       </van-swipe>
     </div>
