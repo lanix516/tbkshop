@@ -6,9 +6,9 @@
     </van-nav-bar>
     <van-actionsheet v-model="showActive" :actions="actions" @select="onSelectAction"/>
     <div class="content">
-      <div class="logo">
+      <!-- <div class="logo">
         <img :src="require('../../assets/images/dd64.png')">
-      </div>
+      </div>-->
       <van-cell-group>
         <van-field
           v-model="goodMessage"
@@ -187,7 +187,7 @@ export default {
 <style lang="less" scoped>
 .search {
   .content {
-    margin-top: 70px;
+    margin-top: 10px;
     padding: 10px;
     .logo {
       text-align: center;
