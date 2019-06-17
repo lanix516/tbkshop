@@ -20,7 +20,7 @@ Vue.use(Toast);
 Vue.use(List);
 Vue.use(Dialog);
 
-let test = true;
+let test = false;
 if (test) {
   Axios.defaults.baseURL = "/api";
 } else {
