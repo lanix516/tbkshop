@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { register } from "register-service-worker";
-
+let version = "v1.0"
 if (process.env.NODE_ENV === "production") {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
@@ -17,7 +17,11 @@ if (process.env.NODE_ENV === "production") {
       console.log("Content has been cached for offline use.");
     },
     updatefound(reg) {
-      reg.update();
+      let v = localStorage.getItem("version")
+      if (v && v != version) {
+        reg.update();
+        localStorage.setItem("version", version)
+      }
       console.log("New content is downloading.");
     },
     updated() {
