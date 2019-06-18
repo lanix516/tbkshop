@@ -101,6 +101,15 @@ export default new Router({
       }
     },
     {
+      name: "profit",
+      path: "/profit",
+      component: () => import("./views/profit"),
+      meta:{
+        title: "我要赚钱",
+        keepAlive: true
+      }
+    },
+    {
       name: "register",
       path: "/register",
       component: () => import("./views/user/register.vue"),

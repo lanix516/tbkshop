@@ -33,6 +33,7 @@
     <van-cell-group title="返利操作" class="user-group">
       <van-cell icon="cash-back-record" title="提取返利" is-link url="/cash"/>
       <van-cell icon="records" title="提取记录" is-link url="/cashlog"/>
+      <van-cell icon="records" title="我要赚钱" is-link url="/profit"/>
       <van-cell icon="hot-o" title="我要推广" @click="showPop=true" is-link/>
       <van-popup v-model="showPop">
         <van-panel title="推广链接">
