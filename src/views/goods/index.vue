@@ -43,9 +43,8 @@
       <van-cell title="返利" :value="formatPrice(goods.tkCommFee)"/>
     </van-cell-group>
     <van-goods-action style="z-index:2">
-      <van-goods-action-mini-btn icon="chat-o">客服</van-goods-action-mini-btn>
-      <van-goods-action-mini-btn class="copy-btn" @click="openPopup(1)" icon="friends" text="分享"/>
-
+      <van-goods-action-mini-btn class="copy-btn" @click="openPopup(1)" icon="friends" text="分享赚钱"/>
+      <van-goods-action-mini-btn icon="chat-o" @click="showWeChat=true">微信助手</van-goods-action-mini-btn>
       <!-- <van-goods-action-big-btn default>转发到微信</van-goods-action-big-btn>
       <van-goods-action-big-btn primary>转发到QQ</van-goods-action-big-btn>-->
       <!-- <van-goods-action-big-btn :url="goods.couponShortLinkUrl">打开淘宝购买</van-goods-action-big-btn> -->
@@ -61,6 +60,20 @@
               :data-clipboard-text="short?goods.shortshare:goods.share"
               @click="copyToTb"
             >一键复制</van-goods-action-big-btn>
+          </div>
+        </van-panel>
+      </van-popup>
+      <van-popup v-model="showWeChat">
+        <van-panel title="微信助手">
+          <div>
+            <p style="font-size:22px;text-align:center">微信：chengdongkeji</p>
+          </div>
+          <div slot="footer">
+            <van-goods-action-big-btn
+              class="coyp-wx"
+              data-clipboard-text="chengdongkeji"
+              @click="copyToWx"
+            >一键复制微信号</van-goods-action-big-btn>
           </div>
         </van-panel>
       </van-popup>
@@ -111,7 +124,8 @@ export default {
       goods: {},
       loader: "",
       showPop: false,
-      short: true
+      short: true,
+      showWeChat: false
     };
   },
   created() {
@@ -179,6 +193,23 @@ export default {
         // 释放内存
         clipboard.destroy();
         this.showPop = false;
+      });
+    },
+    copyToWx() {
+      var clipboard = new Clipboard(".coyp-wx");
+      clipboard.on("success", e => {
+        this.$toast(`复制成功`);
+        // 释放内存
+        clipboard.destroy();
+        this.showWeChat = false;
+        window.location.href = "weixin://";
+      });
+      clipboard.on("error", e => {
+        // 不支持复制
+        console.log("该浏览器不支持自动复制");
+        // 释放内存
+        clipboard.destroy();
+        this.showWeChat = false;
       });
     },
     getGoodDetail() {
