@@ -1,6 +1,6 @@
 <template>
   <div class="order-list">
-    <van-nav-bar title="全部订单" left-text="返回" left-arrow @click-left="$router.push('/user')"/>
+    <van-nav-bar title="全部订单" left-text="返回" left-arrow @click-left="$router.push('/user')" />
     <div style="margin-top:10px">
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="getOrder">
         <van-card
@@ -64,7 +64,7 @@ export default {
   computed: {},
   methods: {
     getOrder() {
-      let _current = this.page.currpage + 1;
+      let _current = this.page.currpage + 1 || 1;
       let _url = "/getorder/" + _current;
       if (_current > this.page.pagecount) {
         this.finished = true;
@@ -72,14 +72,16 @@ export default {
       }
       this.axios.get(_url).then(res => {
         this.loading = false;
-        let result = res.data;
-        let { pagecount, currpage, data } = result.data;
-        this.page = { pagecount, currpage };
-        if (data.length > 0) {
-          this.orderList = [...this.orderList, ...data];
-        }
-        if (data.length < 20) {
-          this.finished = true;
+        if (res.data) {
+          let result = res.data;
+          let { pagecount, currpage, data } = result.data;
+          this.page = { pagecount, currpage };
+          if (data.length > 0) {
+            this.orderList = [...this.orderList, ...data];
+          }
+          if (data.length < 20) {
+            this.finished = true;
+          }
         }
       });
     },
