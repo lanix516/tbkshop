@@ -1,14 +1,14 @@
 <template>
   <div class="user">
     <round-btn @click.native="showLeaveMessage=true" style="right:10px" icon="ellipsis"></round-btn>
-    <img class="user-poster" :src="require('../../assets/images/banner.jpg')">
+    <img class="user-poster" :src="require('../../assets/images/banner.jpg')" />
     <van-row class="user-links">
       <van-col span="12">
-        <van-icon name="refund-o" size="36px"/>
+        <van-icon name="refund-o" size="36px" />
         <p class="back-money">当前返利总额：{{(info.taobi+info.reckonTaobi).toFixed(2)}}</p>
       </van-col>
       <van-col span="12">
-        <van-icon name="cart-circle-o" size="36px"/>
+        <van-icon name="cart-circle-o" size="36px" />
         <p class="back-money">共节省：{{info.tixiantaobi}}</p>
       </van-col>
     </van-row>
@@ -16,7 +16,7 @@
       <van-cell icon="balance-o" :value="info.taobi">
         <template slot="title">
           <span class="custom-text">可提现</span>
-          <van-icon name="question-o" color="#1989fa" @click="$toast('当前可以提现的账户总额')"/>
+          <van-icon name="question-o" color="#1989fa" @click="$toast('当前可以提现的账户总额')" />
         </template>
       </van-cell>
       <van-cell icon="clock-o" title="待结算" :value="info.reckonTaobi">
@@ -31,10 +31,10 @@
       </van-cell>
     </van-cell-group>
     <van-cell-group title="返利操作" class="user-group">
-      <van-cell icon="cash-back-record" title="提取返利" is-link url="/cash"/>
-      <van-cell icon="records" title="提取记录" is-link url="/cashlog"/>
-      <van-cell icon="records" title="我要赚钱" is-link url="/profit"/>
-      <van-cell icon="hot-o" title="我要推广" @click="showPop=true" is-link/>
+      <van-cell icon="cash-back-record" title="提取返利" is-link url="/cash" />
+      <van-cell icon="records" title="提取记录" is-link url="/cashlog" />
+      <van-cell icon="records" title="我要赚钱" is-link url="/profit" />
+      <van-cell icon="hot-o" title="我要推广" @click="showPop=true" is-link />
       <van-popup v-model="showPop">
         <van-panel title="推广链接">
           <div class="pop-content">
@@ -51,12 +51,12 @@
           </div>
         </van-panel>
       </van-popup>
-      <van-cell icon="todo-list-o" title="推广记录" is-link url="/tuilog"/>
+      <van-cell icon="todo-list-o" title="推广记录" is-link url="/tuilog" />
     </van-cell-group>
 
     <van-cell-group title="账户">
-      <van-cell icon="shopping-cart-o" title="全部订单" is-link url="/orderlist"/>
-      <van-cell icon="alipay" title="返利账号" is-link url="/alipay"/>
+      <van-cell icon="shopping-cart-o" title="全部订单" is-link url="/orderlist" />
+      <van-cell icon="alipay" title="返利账号" is-link url="/alipay" />
     </van-cell-group>
     <van-popup v-model="showLeaveMessage">
       <van-cell-group>
@@ -110,7 +110,7 @@ export default {
       leaveMessage: "",
       info: {},
       shortUrl: `最强淘宝返利云平台，安全高效，买到还能赚到！网址  
-      https://www.ddyfl.com/register/${this.$store.state.userInfo.uid}`
+      https://${location.host}/register/${this.$store.state.userInfo.uid}`
     };
   },
   mounted() {
@@ -122,7 +122,7 @@ export default {
   computed: {
     shareUrl() {
       return `最强淘宝返利云平台，安全高效，买到还能赚到！网址  
-      https://www.ddyfl.com/register/${this.$store.state.userInfo.uid}`;
+      https://${location.host}/register/${this.$store.state.userInfo.uid}`;
     }
   },
   methods: {
@@ -132,9 +132,7 @@ export default {
         let data = res.data;
         if (data.code == 200) {
           this.info = data.data;
-          this.shortUrl = `最强淘宝返利云平台，安全高效，买到还能赚到！网址${
-            this.info.tuilink
-          }`;
+          this.shortUrl = `最强淘宝返利云平台，安全高效，买到还能赚到！网址${this.info.tuilink}`;
         } else {
           localStorage.removeItem("userInfo");
           this.$store.commit("setLogin", false);

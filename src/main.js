@@ -24,7 +24,7 @@ let test = false;
 if (test) {
   Axios.defaults.baseURL = "/api";
 } else {
-  Axios.defaults.baseURL = "https://www.ddyfl.com/interface/";
+  Axios.defaults.baseURL = "/interface/";
 }
 Axios.defaults.headers = {
   "Content-Type": "multipart/form-data"
