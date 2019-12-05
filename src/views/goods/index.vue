@@ -1,11 +1,11 @@
 <template>
   <div class="goods">
     <div class="back-btn" @click="$router.back()">
-      <van-icon size="24px" color="#FFFFFF" name="arrow-left" style="top:6px; left:6px"/>
+      <van-icon size="24px" color="#FFFFFF" name="arrow-left" style="top:6px; left:6px" />
     </div>
     <van-swipe class="goods-swipe" :autoplay="3000">
       <van-swipe-item>
-        <img :src="goods.pictUrl" style="height:375px">
+        <img :src="goods.pictUrl" style="height:375px" />
       </van-swipe-item>
     </van-swipe>
     <van-cell-group>
@@ -21,11 +21,27 @@
         <div class="coupon-price">共为您节省(券+返利) {{formatPrice(goods.couponAmount+goods.tkCommFee)}}元</div>
       </van-cell>
       <van-cell :value="goods.shopTitle" icon="shop-o" is-link :url="goods.shortLinkUrl"></van-cell>
-      <van-cell class="goods-express" v-if="hasCoupon">
+      <van-coupon-cell
+        v-show="hasHongBao"
+        title="本站红包"
+        :coupons="this.goods.hongbao"
+        :chosen-coupon="chosenCoupon"
+        @click="showHongBao"
+      />
+      <van-popup v-model="showHB" position="bottom" style="width:100%">
+        <van-coupon-list
+          :show-exchange-bar="false"
+          :coupons="this.goods.hongbao"
+          :chosen-coupon="chosenCoupon"
+          @change="onChange"
+          @exchange="onExChange"
+        />
+      </van-popup>
+      <van-cell v-if="hasCoupon">
         <van-col span="12">
-          <span style="color:#999">{{goods.couponInfo}}</span>
+          <span style="color:#000">淘宝红包</span>
         </van-col>
-        <van-col span="12">
+        <van-col span="12" style="text-align:right">
           <span style="color:#999">剩余券：{{goods.couponLeftCount}} 张</span>
         </van-col>
       </van-cell>
@@ -39,41 +55,40 @@
     </van-cell-group>
 
     <van-cell-group class="goods-cell-group">
-      <van-cell title="为您节省" :value="goods.couponAmount" v-if="hasCoupon"/>
-      <van-cell title="返利" :value="formatPrice(goods.tkCommFee)"/>
+      <van-cell title="为您节省" :value="goods.couponAmount" v-if="hasCoupon" />
+      <van-cell title="返利" :value="formatPrice(goods.tkCommFee)" />
     </van-cell-group>
     <van-goods-action style="z-index:2">
-      <van-goods-action-mini-btn class="copy-btn" @click="openPopup(1)" icon="friends" text="分享赚钱"/>
-      <van-goods-action-mini-btn icon="chat-o" @click="showWeChat=true">微信助手</van-goods-action-mini-btn>
-      <!-- <van-goods-action-big-btn default>转发到微信</van-goods-action-big-btn>
-      <van-goods-action-big-btn primary>转发到QQ</van-goods-action-big-btn>-->
-      <!-- <van-goods-action-big-btn :url="goods.couponShortLinkUrl">打开淘宝购买</van-goods-action-big-btn> -->
-      <van-goods-action-big-btn @click="openPopup">前往淘宝购买</van-goods-action-big-btn>
+      <van-goods-action-icon class="copy-btn" @click="openPopup(1)" icon="friends" text="分享" />
+      <van-goods-action-icon icon="chat-o" @click="showWeChat=true" text="客服" />
+      <van-goods-action-button type="warning" @click="openPopup">前往淘宝购买</van-goods-action-button>
       <van-popup v-model="showPop">
         <van-panel title="复制内容">
           <div class="pop-content">
             <p v-html="short?goods.shortshare:goods.share"></p>
           </div>
-          <div slot="footer">
-            <van-goods-action-big-btn
+          <div slot="footer" style="text-align:center">
+            <van-button
               class="coyp-tb"
+              type="warning"
               :data-clipboard-text="short?goods.shortshare:goods.share"
               @click="copyToTb"
-            >一键复制</van-goods-action-big-btn>
+            >一键复制</van-button>
           </div>
         </van-panel>
       </van-popup>
       <van-popup v-model="showWeChat">
-        <van-panel title="微信助手">
+        <van-panel title="微信客服助手">
           <div>
             <p style="font-size:22px;text-align:center">微信：chengdongkeji</p>
           </div>
-          <div slot="footer">
-            <van-goods-action-big-btn
+          <div slot="footer" style="text-align:center">
+            <van-button
+              type="warning"
               class="coyp-wx"
               data-clipboard-text="chengdongkeji"
               @click="copyToWx"
-            >一键复制微信号</van-goods-action-big-btn>
+            >一键复制微信号</van-button>
           </div>
         </van-panel>
       </van-popup>
@@ -95,10 +110,14 @@ import {
   Toast,
   SwipeItem,
   GoodsAction,
-  GoodsActionBigBtn,
-  GoodsActionMiniBtn,
+  GoodsActionIcon,
+  GoodsActionButton,
   Popup,
-  Panel
+  Panel,
+  Button,
+  ActionSheet,
+  CouponCell,
+  CouponList
 } from "vant";
 
 export default {
@@ -112,10 +131,14 @@ export default {
     [Swipe.name]: Swipe,
     [SwipeItem.name]: SwipeItem,
     [GoodsAction.name]: GoodsAction,
-    [GoodsActionBigBtn.name]: GoodsActionBigBtn,
-    [GoodsActionMiniBtn.name]: GoodsActionMiniBtn,
+    [GoodsActionIcon.name]: GoodsActionIcon,
+    [GoodsActionButton.name]: GoodsActionButton,
     [Popup.name]: Popup,
-    [Panel.name]: Panel
+    [Panel.name]: Panel,
+    [Button.name]: Button,
+    [ActionSheet.name]: ActionSheet,
+    [CouponCell.name]: CouponCell,
+    [CouponList.name]: CouponList
   },
   props: ["keyword"],
   data() {
@@ -125,7 +148,23 @@ export default {
       loader: "",
       showPop: false,
       short: true,
-      showWeChat: false
+      showWeChat: false,
+      showHB: false,
+      chosenCoupon: -1,
+      coupons: [
+        {
+          available: 1,
+          condition: "无使用门槛\n最多优惠12元",
+          reason: "",
+          value: 150,
+          name: "优惠券名称",
+          startAt: 1489104000,
+          endAt: 1514592000,
+          valueDesc: "1.5",
+          unitDesc: "元",
+          choose: -1
+        }
+      ]
     };
   },
   created() {
@@ -145,6 +184,9 @@ export default {
         this.goods.hasOwnProperty("couponShortLinkUrl") &&
         this.goods.hasOwnProperty("couponAmount")
       );
+    },
+    hasHongBao() {
+      return this.goods.hongbao && this.goods.hongbao.length > 0;
     },
     afterPrice() {
       return this.hasCoupon
@@ -222,6 +264,15 @@ export default {
 
         if (data.code == 200) {
           this.goods = data.data;
+          this.goods.hongbao.map(hb => {
+            hb.startAt = new Date(hb.startat).getTime() / 1000;
+            hb.endAt = new Date(hb.endat).getTime() / 1000;
+            hb.valueDesc = hb.value;
+            hb.value = hb.value * 100;
+            hb.unitDesc = "元";
+            hb.condition = `${hb.valueDesc}元红包区\n产品可以`;
+            console.log(_cons);
+          });
         } else if (data.code == 301) {
           location.href = data.data;
         } else {
@@ -246,6 +297,20 @@ export default {
     },
     onClickCart() {
       this.$router.push("cart");
+    },
+    //展示站内红包
+    showHongBao(e) {
+      this.showHB = true;
+    },
+    getHongBao(e) {
+      console.log(e);
+    },
+    onChange(e) {
+      this.chosenCoupon = e;
+      this.showHB = false;
+    },
+    onExChange(e) {
+      this.$toast("暂无可用优惠码");
     }
   }
 };

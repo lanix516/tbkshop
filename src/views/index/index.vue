@@ -2,12 +2,17 @@
   <div class="home">
     <van-nav-bar title="多多云返利" :left-arrow="false">
       <a href="https://www.ddyfl.com/tkinfo/" target="_blank" slot="left">
-        <van-icon name="question-o"/>
+        <van-icon name="question-o" />
       </a>
-      <van-icon @click="showActive=true" v-if="$store.state.isLogin" name="contact" slot="right"/>
+      <van-icon @click="showActive=true" v-if="$store.state.isLogin" name="contact" slot="right" />
       <span @click="gotoLogin" v-if="!$store.state.isLogin" slot="right">登陆</span>
     </van-nav-bar>
-    <van-actionsheet v-model="showActive" :actions="actions" @select="onSelectAction"/>
+    <van-action-sheet
+      style="width:100%"
+      v-model="showActive"
+      :actions="actions"
+      @select="onSelectAction"
+    />
 
     <van-search v-model="searchValue" placeholder="前往搜索" show-action @click="doSearch">
       <div slot="action" @click="doSearch">
@@ -31,7 +36,7 @@
           :key="swiper.name"
           :data-clipboard-text="swiper.taotoken"
         >
-          <img :src="swiper.picturl" style="width:100%;max-height:149px;">
+          <img :src="swiper.picturl" style="width:100%;max-height:149px;" />
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -43,7 +48,7 @@
               <van-col v-for="(item, idx) in list" :key="idx" span="12">
                 <div class="good-item" @click="gotoDetail(item)">
                   <div class="good-box">
-                    <img :src="item.pictUrl">
+                    <img :src="item.pictUrl" />
                     <div class="name">{{item.title}}</div>
                     <div class="info">
                       <div class="slogan">{{item.couponAmount}}元券</div>
@@ -84,7 +89,7 @@ import {
   Icon,
   Tab,
   Tabs,
-  Actionsheet,
+  ActionSheet,
   Popup
 } from "vant";
 import NewPop from "@/components/NewPop.vue";
@@ -99,7 +104,7 @@ export default {
     [Icon.name]: Icon,
     [Tabs.name]: Tabs,
     [Tab.name]: Tab,
-    [Actionsheet.name]: Actionsheet,
+    [ActionSheet.name]: ActionSheet,
     [Popup.name]: Popup,
     NewPop
   },

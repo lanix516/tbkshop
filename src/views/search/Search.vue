@@ -1,10 +1,10 @@
 <template>
   <div class="search">
     <van-nav-bar title="多多云返利" left-text="返回" @click-left="$router.push('/')" left-arrow>
-      <van-icon @click="showActive=true" v-if="$store.state.isLogin" name="contact" slot="right"/>
+      <van-icon @click="showActive=true" v-if="$store.state.isLogin" name="contact" slot="right" />
       <span @click="gotoLogin" v-if="!$store.state.isLogin" slot="right">登陆</span>
     </van-nav-bar>
-    <van-actionsheet v-model="showActive" :actions="actions" @select="onSelectAction"/>
+    <van-action-sheet v-model="showActive" :actions="actions" @select="onSelectAction" />
     <div class="content">
       <!-- <div class="logo">
         <img :src="require('../../assets/images/dd64.png')">
@@ -39,7 +39,7 @@
         </van-col>-->
         <van-col :span="24" v-if="!$store.state.isLogin">
           <div class="info-text">
-            <van-icon name="info" size="14px" style="vertical-align: middle;margin-right: 5px;"/>请先登陆并完善账户信息，以便系统转账
+            <van-icon name="info" size="14px" style="vertical-align: middle;margin-right: 5px;" />请先登陆并完善账户信息，以便系统转账
           </div>
         </van-col>
       </van-row>
@@ -57,7 +57,7 @@ import {
   Row,
   Col,
   NavBar,
-  Actionsheet
+  ActionSheet
 } from "vant";
 
 export default {
@@ -70,7 +70,7 @@ export default {
     [Row.name]: Row,
     [Col.name]: Col,
     [NavBar.name]: NavBar,
-    [Actionsheet.name]: Actionsheet
+    [ActionSheet.name]: ActionSheet
   },
 
   data() {

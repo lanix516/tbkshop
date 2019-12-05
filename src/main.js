@@ -20,12 +20,12 @@ Vue.use(Toast);
 Vue.use(List);
 Vue.use(Dialog);
 
-let test = false;
-if (test) {
+if (process.env.NODE_ENV == "development") {
   Axios.defaults.baseURL = "/api";
 } else {
   Axios.defaults.baseURL = "/interface/";
 }
+
 Axios.defaults.headers = {
   "Content-Type": "multipart/form-data"
 };
