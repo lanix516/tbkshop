@@ -78,7 +78,6 @@
 
 <script>
 import Clipboard from "clipboard";
-
 import {
   Search,
   Swipe,

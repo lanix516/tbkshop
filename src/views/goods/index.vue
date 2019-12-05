@@ -270,8 +270,7 @@ export default {
             hb.valueDesc = hb.value;
             hb.value = hb.value * 100;
             hb.unitDesc = "元";
-            hb.condition = `${hb.valueDesc}元红包区\n产品可以`;
-            console.log(_cons);
+            hb.condition = `${hb.valueDesc}元红包区\n产品可以使用`;
           });
         } else if (data.code == 301) {
           location.href = data.data;
