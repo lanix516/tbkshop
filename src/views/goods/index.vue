@@ -143,6 +143,7 @@ export default {
   props: ["keyword"],
   data() {
     return {
+      uid: "",
       showClipboard: false,
       goods: {},
       loader: "",
@@ -151,20 +152,7 @@ export default {
       showWeChat: false,
       showHB: false,
       chosenCoupon: -1,
-      coupons: [
-        {
-          available: 1,
-          condition: "无使用门槛\n最多优惠12元",
-          reason: "",
-          value: 150,
-          name: "优惠券名称",
-          startAt: 1489104000,
-          endAt: 1514592000,
-          valueDesc: "1.5",
-          unitDesc: "元",
-          choose: -1
-        }
-      ]
+      coupons: []
     };
   },
   created() {
@@ -172,6 +160,7 @@ export default {
   },
   mounted() {
     this.addBaiduPush();
+    this.uid = this.$route.query.uid;
     if (this.keyword) {
       this.getGoodDetail();
     }
@@ -301,12 +290,26 @@ export default {
     showHongBao(e) {
       this.showHB = true;
     },
-    getHongBao(e) {
-      console.log(e);
+    getHongBao(hbid) {
+      let url = "/bindhb";
+      let form = new FormData();
+      form.append("uid", this.uid);
+      form.append("hongbaoid", hbid);
+      form.append("auctionid", this.goods.auctionid);
+      this.axios.post(url, form).then(res => {
+        if (res.data.code == 200) {
+          let _data = res.data.data;
+          Object.assign(this.goods, _data);
+        } else {
+          this.chosenCoupon = -1;
+          this.$toast("红包领取失败，请稍后重试");
+        }
+      });
     },
     onChange(e) {
       this.chosenCoupon = e;
       this.showHB = false;
+      this.getHongBao(this.goods.hongbao[e].id);
     },
     onExChange(e) {
       this.$toast("暂无可用优惠码");
