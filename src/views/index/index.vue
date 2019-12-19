@@ -36,7 +36,7 @@
           :key="swiper.name"
           :data-clipboard-text="swiper.taotoken"
         >
-          <img :src="swiper.picturl" style="width:100%;max-height:149px;" />
+          <img :src="swiper.picturl" style="width:100%;max-height:149px;margin:0 auto;" />
         </van-swipe-item>
       </van-swipe>
     </div>
@@ -71,8 +71,11 @@
     </van-tabs>
 
     <van-popup v-model="showMission" class="pop-box">
-      <new-pop @trigger="gotoMission"></new-pop>
+      <a :href="activeUrl">
+        <img src="../../assets/images/hongbao.gif" />
+      </a>
     </van-popup>
+    <float-btn></float-btn>
   </div>
 </template>
 
@@ -91,7 +94,7 @@ import {
   ActionSheet,
   Popup
 } from "vant";
-import NewPop from "@/components/NewPop.vue";
+import FloatBtn from "@/components/FloatBtn";
 export default {
   components: {
     [Search.name]: Search,
@@ -105,12 +108,13 @@ export default {
     [Tab.name]: Tab,
     [ActionSheet.name]: ActionSheet,
     [Popup.name]: Popup,
-    NewPop
+    FloatBtn
   },
   name: "Home",
   data() {
     return {
       showMission: false,
+      activeUrl: "",
       showSearch: false,
       searchValue: "",
       count: 0,
@@ -140,10 +144,21 @@ export default {
   mounted() {
     this.getSwiperList();
     this.getGoodsClass();
+    this.showHongBao();
   },
 
   computed: {},
   methods: {
+    //判断是否显示领取红包弹框
+    showHongBao() {
+      let url = `/pophb`;
+      this.axios.get(url).then(res => {
+        this.activeUrl = res.data.data;
+        if (this.activeUrl) {
+          this.showMission = true;
+        }
+      });
+    },
     getSwiperList() {
       let url = `/poster`;
       this.axios.get(url).then(res => {
@@ -152,24 +167,27 @@ export default {
       });
     },
     gotoPage(swiper) {
-      var clipboard = new Clipboard(".copy-swiper");
-      clipboard.on("success", e => {
-        this.$toast(`复制成功`);
-        // 释放内存
-        clipboard.destroy();
-        window.location.href = "taobao://";
-      });
-      clipboard.on("error", e => {
-        // 不支持复制
-        console.log("该浏览器不支持自动复制");
-        // 释放内存
-        clipboard.destroy();
+      if (swiper.taotoken) {
+        var clipboard = new Clipboard(".copy-swiper");
+        clipboard.on("success", e => {
+          console.log(e);
+          this.$toast(`复制成功`);
+          // 释放内存
+          clipboard.destroy();
+          window.location.href = "taobao://";
+        });
+        clipboard.on("error", e => {
+          // 不支持复制
+          console.log("该浏览器不支持自动复制");
+          // 释放内存
+          clipboard.destroy();
+          window.location.href = swiper.picthref;
+        });
+      } else {
         window.location.href = swiper.picthref;
-      });
+      }
     },
-    gotoMission() {
-      this.showMission = false;
-    },
+
     gotoLogin() {
       this.$router.push("/login");
     },
@@ -330,7 +348,7 @@ export default {
 }
 .pop-box {
   border-radius: 10px;
-  background-color: #ff0000;
-  padding: 15px 5px;
+  background-color: rgba(0, 0, 0, 0);
+  padding: 0;
 }
 </style>

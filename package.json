@@ -45,7 +45,17 @@
     "rules": {
       "no-console": "off",
       "semi": 0,
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "trailingComma": "none",
+          "bracketSpacing": true,
+          "jsxBracketSameLine": true,
+          "parser": "flow"
+        }
+      ]
     },
     "parserOptions": {
       "parser": "babel-eslint"

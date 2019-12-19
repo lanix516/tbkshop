@@ -39,7 +39,7 @@
       </van-popup>
       <van-cell v-if="hasCoupon">
         <van-col span="12">
-          <span style="color:#000">淘宝红包</span>
+          <span style="color:#000">淘宝券</span>
         </van-col>
         <van-col span="12" style="text-align:right">
           <span style="color:#999">剩余券：{{goods.couponLeftCount}} 张</span>
@@ -55,7 +55,7 @@
     </van-cell-group>
 
     <van-cell-group class="goods-cell-group">
-      <van-cell title="为您节省" :value="goods.couponAmount" v-if="hasCoupon" />
+      <van-cell title="领券节省" :value="goods.couponAmount" v-if="hasCoupon" />
       <van-cell title="返利" :value="formatPrice(goods.tkCommFee)" />
     </van-cell-group>
     <van-goods-action style="z-index:2">
