@@ -1,15 +1,24 @@
 <template>
   <div class="float">
-    <img src="../assets/images/xiaohongbao-128.gif" />
+    <a :href="activeUrl">
+      <img src="../assets/images/xiaohongbao.gif" />
+    </a>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props: {
+    activeUrl: ""
+  }
+};
 </script>
 <style scoped>
 .float {
   position: fixed;
-  right: -30px;
-  bottom: 50px;
+  right: 10px;
+  bottom: 60px;
+}
+.float img {
+  width: 80px;
 }
 </style>

@@ -75,7 +75,7 @@
         <img src="../../assets/images/hongbao.gif" />
       </a>
     </van-popup>
-    <float-btn></float-btn>
+    <float-btn v-show="showHbArea" :activeUrl="activeUrl"></float-btn>
   </div>
 </template>
 
@@ -113,7 +113,8 @@ export default {
   name: "Home",
   data() {
     return {
-      showMission: false,
+      showMission: false, // 领红包弹出框
+      showHbArea: false, //右下角红包区按钮
       activeUrl: "",
       showSearch: false,
       searchValue: "",
@@ -153,9 +154,14 @@ export default {
     showHongBao() {
       let url = `/pophb`;
       this.axios.get(url).then(res => {
-        this.activeUrl = res.data.data;
-        if (this.activeUrl) {
+        let hashb = res.data.data.hasHb;
+        this.activeUrl = res.data.data.url;
+        if (hashb) {
+          this.showHbArea = false;
           this.showMission = true;
+        } else {
+          this.showHbArea = true;
+          this.showMission = false;
         }
       });
     },
