@@ -1,12 +1,12 @@
 <template>
   <div class="register">
-    <van-nav-bar title="多多云返利" left-text="返回" @click-left="$router.push('/')" left-arrow/>
+    <van-nav-bar title="多多云返利" left-text="返回" @click-left="$router.push('/')" left-arrow />
 
     <van-row type="flex" justify="center">
       <van-col span="24">
         <div style="margin:80px 0">
           <div class="page-logo">
-            <img src="../../assets/images/dd.png">
+            <img src="../../assets/images/dd.png" />
           </div>
           <van-cell-group>
             <van-cell>
@@ -52,13 +52,13 @@
           <p class="other-title">其他方式登陆</p>
           <van-row type="flex" justify="space-between">
             <van-col span="6">
-              <img @click="showMessage()" src="../../assets/images/taobao.png">
+              <img @click="showMessage()" src="../../assets/images/taobao.png" />
             </van-col>
             <van-col span="6">
-              <img @click="showMessage()" src="../../assets/images/wecaht.png">
+              <img @click="showMessage()" src="../../assets/images/wecaht.png" />
             </van-col>
             <van-col span="6">
-              <img @click="showMessage()" src="../../assets/images/QQ.png">
+              <img @click="showMessage()" src="../../assets/images/QQ.png" />
             </van-col>
           </van-row>
         </div>
@@ -95,6 +95,7 @@ export default {
   mounted() {
     if (this.$route.params.uid) {
       this.uid = this.$route.params.uid;
+      localStorage.setItem("inviterID", this.uid);
     }
   },
   methods: {
@@ -125,7 +126,8 @@ export default {
       let form = new FormData();
       form.append("phone", this.form.username);
       form.append("pwd", this.form.password);
-      this.axios.post(`/reg/${this.uid}/`, form).then(res => {
+      let uid = localStorage.getItem("inviterID");
+      this.axios.post(`/reg/${uid}/`, form).then(res => {
         let data = res.data;
         if (data.code == 200) {
           this.$store.commit("setLogin", true);
