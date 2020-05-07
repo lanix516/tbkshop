@@ -17,7 +17,8 @@
     "vue": "^2.6.6",
     "vue-loading-overlay": "^3.2.0",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "web-open-app": "^1.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",

@@ -99,6 +99,7 @@
 <script>
 import Coupon from "../../components/good/Coupon2";
 import Clipboard from "clipboard";
+import OpenApp from "web-open-app";
 
 import {
   Tag,
@@ -281,7 +282,19 @@ export default {
       this.showPop = true;
     },
     openTaobao() {
-      window.location.href = "taobao://";
+      //window.location.href = "taobao://";
+      this.openapp = new OpenApp({
+        scheme: "taobao://",
+        // intent: "",
+        // applink: "",
+        // 复制到剪贴板数据
+        copyText: this.goods.shortshare,
+        // 唤起app状态回调
+        callback: function (status, msg) {
+          console.log("status: ", status, "  msg: ", msg);
+        }
+      })
+      this.openapp.open();
     },
     onClickCart() {
       this.$router.push("cart");
